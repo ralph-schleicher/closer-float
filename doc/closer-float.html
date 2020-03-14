@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>CLOSER-FLOAT</title>
+  <style type="text/css">
+   *{margin:0;border:0;padding:0}
+   body{color:#000;background-color:#fff;font-family:sans-serif;padding:1em;min-width:46em}
+   a{color:inherit;background-color:transparent;text-decoration:none}
+   table{border-collapse:collapse}
+   div.title{padding:1em}
+   div.subtitle{padding:1em}
+   div.prologue{padding:1em}
+   div.epilogue{padding:1em}
+   span.category{color:#212121;font-style:italic}
+   span.package,span.symbol{color:#212121;font-weight:700;white-space:nowrap}
+   span.lambda-list{color:#616161}
+   span.lambda-list-keyword{color:#388E3C;white-space:nowrap}
+   span.keyword{color:#212121;white-space:nowrap}
+   span.variable{color:#212121;font-style:italic;white-space:nowrap}
+   span.init-form{white-space:nowrap}
+   span.method-specializers{color:#616161}
+   span.method-specializer{color:#212121;white-space:nowrap}
+   span.method-qualifier{color:#212121;white-space:nowrap}
+   div.contents{padding:1em}
+   div.contents-listing{padding:1em}
+   div.contents-listing ul{list-style-type:none}
+   @media all and (min-width:68em){div.contents-listing{column-count:2;column-gap:2em}}
+   div.definition{padding:1em}
+   div.signature{background-color:#F5F5F5;padding:1ex 1em}
+   table.signature td.symbol{text-align:left;vertical-align:baseline;white-space:nowrap;padding-right:.5em}
+   table.signature td.lambda-list{text-align:left;vertical-align:baseline;width:100%}
+   table.signature td.category{text-align:right;vertical-align:baseline;white-space:nowrap;padding-left:1.5em}
+   div.documentation{padding:1em}
+  </style>
+ </head>
+ <body>
+  <div class="title">
+   <h1>CLOSER-FLOAT</h1>
+  </div>
+  <div class="prologue">
+   <pre>Closer to floating-point arithmetic.
+
+Provide a common interface to IEEE 754 (a.k.a. ISO/IEC/IEEE 60559)
+and ISO/IEC 10967 features.
+
+If a symbol is not bound, then the corresponding feature is not
+available.</pre>
+  </div>
+  <div class="contents" id="contents">
+   <h2>Contents</h2>
+   <div class="contents-listing">
+    <ul>
+     <li>
+      <a href="#_161b0736-761f-54bc-abea-d05c86e54414">
+       <span class="category">Constant</span>
+       <span class="symbol">double-float-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_bc2f50a5-9097-512c-8dbc-088433fa0a04">
+       <span class="category">Constant</span>
+       <span class="symbol">double-float-negative-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_b0a6f712-cf90-587e-9bbe-0ea05ec1531c">
+       <span class="category">Constant</span>
+       <span class="symbol">double-float-not-a-number</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_9beb10f6-ea4d-5f0e-9f64-4e9997a83f02">
+       <span class="category">Constant</span>
+       <span class="symbol">double-float-positive-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_295ac4d4-709b-5cff-848a-13aa17dc71c0">
+       <span class="category">Constant</span>
+       <span class="symbol">double-float-quiet-not-a-number</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_75c3a860-eab1-5fac-8351-bfb8daaff7af">
+       <span class="category">Constant</span>
+       <span class="symbol">double-float-signaling-not-a-number</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_3f75e620-884e-52ca-81dc-6771a329c91a">
+       <span class="category">Constant</span>
+       <span class="symbol">long-float-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_260161ef-24b2-5ec5-a446-d0301afe9c48">
+       <span class="category">Constant</span>
+       <span class="symbol">long-float-negative-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_64715cd3-9fe7-5df6-bac6-4ed94ba7d124">
+       <span class="category">Constant</span>
+       <span class="symbol">long-float-not-a-number</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_b984b00a-d0c3-58f0-ac24-b76e92925d0f">
+       <span class="category">Constant</span>
+       <span class="symbol">long-float-positive-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_00e78709-adff-5709-9811-22b1f565a1bf">
+       <span class="category">Constant</span>
+       <span class="symbol">long-float-quiet-not-a-number</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_ef194c3f-8305-50f0-a25e-9334e8e3d3c8">
+       <span class="category">Constant</span>
+       <span class="symbol">long-float-signaling-not-a-number</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_d009857a-bf3c-528d-b19b-b01cfaa746ed">
+       <span class="category">Constant</span>
+       <span class="symbol">short-float-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_221343cc-44e0-52f0-94fe-043cb4f3aa32">
+       <span class="category">Constant</span>
+       <span class="symbol">short-float-negative-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_ade668d3-bdd7-5291-b740-dd300e4d6802">
+       <span class="category">Constant</span>
+       <span class="symbol">short-float-not-a-number</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_fefba4f4-85ce-5a39-873b-3d9311c6f77f">
+       <span class="category">Constant</span>
+       <span class="symbol">short-float-positive-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_c8746227-5e65-5fa5-9dc2-edf820fc169d">
+       <span class="category">Constant</span>
+       <span class="symbol">short-float-quiet-not-a-number</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_c94bc51f-454e-5c18-a102-b9b974e627de">
+       <span class="category">Constant</span>
+       <span class="symbol">short-float-signaling-not-a-number</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_e412acdf-d9e7-5913-bcbd-6ce9b08e4c55">
+       <span class="category">Constant</span>
+       <span class="symbol">single-float-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_4b77833c-8913-552f-bdef-f5d61012cfd7">
+       <span class="category">Constant</span>
+       <span class="symbol">single-float-negative-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_791c93e5-40b0-5eac-8984-177df4c8e3c3">
+       <span class="category">Constant</span>
+       <span class="symbol">single-float-not-a-number</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_a24744d9-01e3-51dd-86af-89cbba744678">
+       <span class="category">Constant</span>
+       <span class="symbol">single-float-positive-infinity</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_54e87e4a-73dc-5063-9930-b067a3590098">
+       <span class="category">Constant</span>
+       <span class="symbol">single-float-quiet-not-a-number</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_2b4ff0f3-6e5d-5e5e-a602-6b75e403730c">
+       <span class="category">Constant</span>
+       <span class="symbol">single-float-signaling-not-a-number</span>
+      </a>
+     </li>
+    </ul>
+   </div>
+  </div>
+  <div class="dictionary">
+   <div class="definition" id="_161b0736-761f-54bc-abea-d05c86e54414">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">double-float-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of positive infinity.
+The following identities hold:
+
+     (= double-float-infinity double-float-positive-infinity)
+     (= (- double-float-infinity) double-float-negative-infinity)</pre>
+    </div>
+   </div>
+   <div class="definition" id="_bc2f50a5-9097-512c-8dbc-088433fa0a04">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">double-float-negative-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of negative infinity.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_b0a6f712-cf90-587e-9bbe-0ea05ec1531c">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">double-float-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of the default not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_9beb10f6-ea4d-5f0e-9f64-4e9997a83f02">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">double-float-positive-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of positive infinity.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_295ac4d4-709b-5cff-848a-13aa17dc71c0">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">double-float-quiet-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of a quiet not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_75c3a860-eab1-5fac-8351-bfb8daaff7af">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">double-float-signaling-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of a signaling not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_3f75e620-884e-52ca-81dc-6771a329c91a">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">long-float-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of positive infinity.
+The following identities hold:
+
+     (= long-float-infinity long-float-positive-infinity)
+     (= (- long-float-infinity) long-float-negative-infinity)</pre>
+    </div>
+   </div>
+   <div class="definition" id="_260161ef-24b2-5ec5-a446-d0301afe9c48">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">long-float-negative-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of negative infinity.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_64715cd3-9fe7-5df6-bac6-4ed94ba7d124">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">long-float-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of the default not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_b984b00a-d0c3-58f0-ac24-b76e92925d0f">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">long-float-positive-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of positive infinity.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_00e78709-adff-5709-9811-22b1f565a1bf">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">long-float-quiet-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of a quiet not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_ef194c3f-8305-50f0-a25e-9334e8e3d3c8">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">long-float-signaling-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of a signaling not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_d009857a-bf3c-528d-b19b-b01cfaa746ed">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">short-float-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of positive infinity.
+The following identities hold:
+
+     (= short-float-infinity short-float-positive-infinity)
+     (= (- short-float-infinity) short-float-negative-infinity)</pre>
+    </div>
+   </div>
+   <div class="definition" id="_221343cc-44e0-52f0-94fe-043cb4f3aa32">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">short-float-negative-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of negative infinity.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_ade668d3-bdd7-5291-b740-dd300e4d6802">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">short-float-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of the default not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_fefba4f4-85ce-5a39-873b-3d9311c6f77f">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">short-float-positive-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of positive infinity.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_c8746227-5e65-5fa5-9dc2-edf820fc169d">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">short-float-quiet-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of a quiet not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_c94bc51f-454e-5c18-a102-b9b974e627de">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">short-float-signaling-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of a signaling not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_e412acdf-d9e7-5913-bcbd-6ce9b08e4c55">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">single-float-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of positive infinity.
+The following identities hold:
+
+     (= single-float-infinity single-float-positive-infinity)
+     (= (- single-float-infinity) single-float-negative-infinity)</pre>
+    </div>
+   </div>
+   <div class="definition" id="_4b77833c-8913-552f-bdef-f5d61012cfd7">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">single-float-negative-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of negative infinity.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_791c93e5-40b0-5eac-8984-177df4c8e3c3">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">single-float-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of the default not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_a24744d9-01e3-51dd-86af-89cbba744678">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">single-float-positive-infinity</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of positive infinity.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_54e87e4a-73dc-5063-9930-b067a3590098">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">single-float-quiet-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of a quiet not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_2b4ff0f3-6e5d-5e5e-a602-6b75e403730c">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">single-float-signaling-not-a-number</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Value of a signaling not-a-number.</pre>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

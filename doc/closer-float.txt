@@ -1,0 +1,121 @@
+CLOSER-FLOAT
+
+Closer to floating-point arithmetic.
+
+Provide a common interface to IEEE 754 (a.k.a. ISO/IEC/IEEE 60559)
+and ISO/IEC 10967 features.
+
+If a symbol is not bound, then the corresponding feature is not
+available.
+
+                                                                      [Constant]
+double-float-infinity
+   Value of positive infinity.
+   The following identities hold:
+   
+        (= double-float-infinity double-float-positive-infinity)
+        (= (- double-float-infinity) double-float-negative-infinity)
+
+                                                                      [Constant]
+double-float-negative-infinity
+   Value of negative infinity.
+
+                                                                      [Constant]
+double-float-not-a-number
+   Value of the default not-a-number.
+
+                                                                      [Constant]
+double-float-positive-infinity
+   Value of positive infinity.
+
+                                                                      [Constant]
+double-float-quiet-not-a-number
+   Value of a quiet not-a-number.
+
+                                                                      [Constant]
+double-float-signaling-not-a-number
+   Value of a signaling not-a-number.
+
+                                                                      [Constant]
+long-float-infinity
+   Value of positive infinity.
+   The following identities hold:
+   
+        (= long-float-infinity long-float-positive-infinity)
+        (= (- long-float-infinity) long-float-negative-infinity)
+
+                                                                      [Constant]
+long-float-negative-infinity
+   Value of negative infinity.
+
+                                                                      [Constant]
+long-float-not-a-number
+   Value of the default not-a-number.
+
+                                                                      [Constant]
+long-float-positive-infinity
+   Value of positive infinity.
+
+                                                                      [Constant]
+long-float-quiet-not-a-number
+   Value of a quiet not-a-number.
+
+                                                                      [Constant]
+long-float-signaling-not-a-number
+   Value of a signaling not-a-number.
+
+                                                                      [Constant]
+short-float-infinity
+   Value of positive infinity.
+   The following identities hold:
+   
+        (= short-float-infinity short-float-positive-infinity)
+        (= (- short-float-infinity) short-float-negative-infinity)
+
+                                                                      [Constant]
+short-float-negative-infinity
+   Value of negative infinity.
+
+                                                                      [Constant]
+short-float-not-a-number
+   Value of the default not-a-number.
+
+                                                                      [Constant]
+short-float-positive-infinity
+   Value of positive infinity.
+
+                                                                      [Constant]
+short-float-quiet-not-a-number
+   Value of a quiet not-a-number.
+
+                                                                      [Constant]
+short-float-signaling-not-a-number
+   Value of a signaling not-a-number.
+
+                                                                      [Constant]
+single-float-infinity
+   Value of positive infinity.
+   The following identities hold:
+   
+        (= single-float-infinity single-float-positive-infinity)
+        (= (- single-float-infinity) single-float-negative-infinity)
+
+                                                                      [Constant]
+single-float-negative-infinity
+   Value of negative infinity.
+
+                                                                      [Constant]
+single-float-not-a-number
+   Value of the default not-a-number.
+
+                                                                      [Constant]
+single-float-positive-infinity
+   Value of positive infinity.
+
+                                                                      [Constant]
+single-float-quiet-not-a-number
+   Value of a quiet not-a-number.
+
+                                                                      [Constant]
+single-float-signaling-not-a-number
+   Value of a signaling not-a-number.
