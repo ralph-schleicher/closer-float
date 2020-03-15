@@ -193,4 +193,29 @@ The following identities hold:
 (setf (documentation 'long-float-not-a-number 'variable)
       "Value of the default not-a-number.")
 
+;; Predicates.
+(export 'float-infinity-p)
+(setf (documentation 'float-infinity-p 'function)
+      "True if the floating-point number argument is infinite.")
+
+(export 'float-positive-infinity-p)
+(setf (documentation 'float-positive-infinity-p 'function)
+      "True if the floating-point number argument is equal to positive infinity.")
+
+(export 'float-negative-infinity-p)
+(setf (documentation 'float-negative-infinity-p 'function)
+      "True if the floating-point number argument is equal to negative infinity.")
+
+(export 'float-not-a-number-p)
+(setf (documentation 'float-not-a-number-p 'function)
+      "True if the floating-point number argument is not-a-number.")
+
+(export 'float-quiet-not-a-number-p)
+(setf (documentation 'float-quiet-not-a-number-p 'function)
+      "True if the floating-point number argument is a quiet not-a-number.")
+
+(export 'float-signaling-not-a-number-p)
+(setf (documentation 'float-signaling-not-a-number-p 'function)
+      "True if the floating-point number argument is a signaling not-a-number.")
+
 ;;; closer-float.lisp ends here

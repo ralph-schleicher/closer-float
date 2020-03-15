@@ -36,6 +36,30 @@ double-float-quiet-not-a-number
 double-float-signaling-not-a-number
    Value of a signaling not-a-number.
 
+                                                                      [Function]
+float-infinity-p (x)
+   True if the floating-point number argument is infinite.
+
+                                                                      [Function]
+float-negative-infinity-p (x)
+   True if the floating-point number argument is equal to negative infinity.
+
+                                                                      [Function]
+float-not-a-number-p (x)
+   True if the floating-point number argument is not-a-number.
+
+                                                                      [Function]
+float-positive-infinity-p (x)
+   True if the floating-point number argument is equal to positive infinity.
+
+                                                                      [Function]
+float-quiet-not-a-number-p (x)
+   True if the floating-point number argument is a quiet not-a-number.
+
+                                                                      [Function]
+float-signaling-not-a-number-p (x)
+   True if the floating-point number argument is a signaling not-a-number.
+
                                                                       [Constant]
 long-float-infinity
    Value of positive infinity.

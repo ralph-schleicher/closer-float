@@ -67,4 +67,36 @@
 			       #2r11111111111111111111111111111111))
 (defconst long-float-signaling-not-a-number double-float-signaling-not-a-number)
 
+;; Predicates.
+(import 'sb-ext:float-infinity-p)
+
+(defsubst float-positive-infinity-p (x)
+  (declare (type float x))
+  (etypecase x
+    (single-float
+     (= x sb-ext:single-float-positive-infinity))
+    (double-float
+     (= x sb-ext:double-float-positive-infinity))))
+
+(defsubst float-negative-infinity-p (x)
+  (declare (type float x))
+  (etypecase x
+    (single-float
+     (= x sb-ext:single-float-negative-infinity))
+    (double-float
+     (= x sb-ext:double-float-negative-infinity))))
+
+(defsubst float-not-a-number-p (x)
+  (declare (type float x))
+  (sb-ext:float-nan-p x))
+
+(defsubst float-quiet-not-a-number-p (x)
+  (declare (type float x))
+  (and (sb-ext:float-nan-p x)
+       (not (sb-ext:float-trapping-nan-p x))))
+
+(defsubst float-signaling-not-a-number-p (x)
+  (declare (type float x))
+  (sb-ext:float-trapping-nan-p x))
+
 ;;; closer-float-sbcl.lisp ends here

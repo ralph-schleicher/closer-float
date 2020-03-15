@@ -89,6 +89,42 @@ available.</pre>
       </a>
      </li>
      <li>
+      <a href="#_bb2ebe29-4547-58ad-b3bc-b560de8efe8d">
+       <span class="category">Function</span>
+       <span class="symbol">float-infinity-p</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_37e61bc9-c6f0-5ce3-9b5d-cb82bd7e7532">
+       <span class="category">Function</span>
+       <span class="symbol">float-negative-infinity-p</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_4f2ea92d-08a1-5360-b3ed-38acab90710a">
+       <span class="category">Function</span>
+       <span class="symbol">float-not-a-number-p</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_081547af-4995-5685-9ea3-c36a6d01dda9">
+       <span class="category">Function</span>
+       <span class="symbol">float-positive-infinity-p</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_69898938-92d7-56a0-b090-bd516e4710f9">
+       <span class="category">Function</span>
+       <span class="symbol">float-quiet-not-a-number-p</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_64a8e306-33d5-56b2-bc7f-26e19aebcafe">
+       <span class="category">Function</span>
+       <span class="symbol">float-signaling-not-a-number-p</span>
+      </a>
+     </li>
+     <li>
       <a href="#_3f75e620-884e-52ca-81dc-6771a329c91a">
        <span class="category">Constant</span>
        <span class="symbol">long-float-infinity</span>
@@ -328,6 +364,132 @@ The following identities hold:
     </div>
     <div class="documentation">
      <pre>Value of a signaling not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_bb2ebe29-4547-58ad-b3bc-b560de8efe8d">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">float-infinity-p</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">x</span>)</span></td>
+	<td class="category"><span class="category">Function</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>True if the floating-point number argument is infinite.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_37e61bc9-c6f0-5ce3-9b5d-cb82bd7e7532">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">float-negative-infinity-p</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">x</span>)</span></td>
+	<td class="category"><span class="category">Function</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>True if the floating-point number argument is equal to negative infinity.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_4f2ea92d-08a1-5360-b3ed-38acab90710a">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">float-not-a-number-p</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">x</span>)</span></td>
+	<td class="category"><span class="category">Function</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>True if the floating-point number argument is not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_081547af-4995-5685-9ea3-c36a6d01dda9">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">float-positive-infinity-p</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">x</span>)</span></td>
+	<td class="category"><span class="category">Function</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>True if the floating-point number argument is equal to positive infinity.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_69898938-92d7-56a0-b090-bd516e4710f9">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">float-quiet-not-a-number-p</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">x</span>)</span></td>
+	<td class="category"><span class="category">Function</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>True if the floating-point number argument is a quiet not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_64a8e306-33d5-56b2-bc7f-26e19aebcafe">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">float-signaling-not-a-number-p</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">x</span>)</span></td>
+	<td class="category"><span class="category">Function</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>True if the floating-point number argument is a signaling not-a-number.</pre>
     </div>
    </div>
    <div class="definition" id="_3f75e620-884e-52ca-81dc-6771a329c91a">
