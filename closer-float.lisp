@@ -218,4 +218,62 @@ The following identities hold:
 (setf (documentation 'float-signaling-not-a-number-p 'function)
       "True if the floating-point number argument is a signaling not-a-number.")
 
+;; Rounding.
+(defvar *rounding-mode* (ignore-errors (get-rounding-mode))
+  "The current rounding mode.
+Value is one of the following.
+
+     :nearest-even
+          Round to nearest, ties to even.
+
+     :nearest-away
+          Round to nearest, ties away from zero.
+
+     :up
+          Direct rounding towards positive infinity.
+
+     :down
+          Direct rounding towards negative infinity.
+
+     :zero
+          Direct rounding towards zero.
+
+A value of ‘nil’ means that the rounding mode is undefined.
+
+When setting the rounding mode, ‘:nearest’ is a synonym for
+‘:nearest-even’.
+
+The ‘:nearest-away’ rounding mode is defined by IEEE 754 but
+not, for example, in the C floating-point environment ‘fenv.h’.
+Thus, chances are low that this rounding mode is supported.")
+
+(defun rounding-mode ()
+  (get-rounding-mode))
+(setf (documentation 'rounding-mode 'function)
+      (documentation '*rounding-mode* 'variable))
+
+(defun (setf rounding-mode) (value)
+  (check-type value (member :nearest :nearest-even :nearest-away :up :down :zero))
+  (when (null *rounding-mode*)
+    (error 'program-error))
+  (let ((rounding-mode (if (eq value :nearest) :nearest-even value)))
+    (set-rounding-mode rounding-mode)
+    (setf *rounding-mode* rounding-mode)))
+(setf (documentation 'rounding-mode 'function)
+      (documentation '*rounding-mode* 'variable))
+
+(defmacro with-rounding-mode (rounding-mode &rest body)
+  "Establish a lexcial environment with the current rounding mode set
+to ROUNDING-MODE.  If argument ROUNDING-MODE is ‘nil’, don't change
+the current rounding mode.  When BODY returns, the previous rounding
+mode is restored. "
+  (alexandria:once-only (rounding-mode)
+    `(let ((*rounding-mode* (rounding-mode)))
+       (unwind-protect
+	    (let ((*rounding-mode* *rounding-mode*))
+	      (when ,rounding-mode
+		(setf (rounding-mode) ,rounding-mode))
+	      ,@body)
+	 (setf (rounding-mode) *rounding-mode*)))))
+
 ;;; closer-float.lisp ends here
