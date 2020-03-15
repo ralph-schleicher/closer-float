@@ -99,4 +99,59 @@
   (declare (type float x))
   (sb-ext:float-trapping-nan-p x))
 
+;; Rounding.
+
+;; SET-FLOATING-POINT-MODES (&KEY TRAPS ROUNDING-MODE CURRENT-EXCEPTIONS ACCRUED-EXCEPTIONS FAST-MODE)
+;;
+;;     This function sets options controlling the floating-point
+;;     hardware.  If a keyword is not supplied, then the current
+;;     value is preserved.  Possible keywords:
+;;
+;;      :TRAPS
+;;        A list of the exception conditions that should cause traps.
+;;        Possible exceptions are :UNDERFLOW, :OVERFLOW, :INEXACT,
+;;        :INVALID, :DIVIDE-BY-ZERO, and on the X86
+;;        :DENORMALIZED-OPERAND.
+;;
+;;     :ROUNDING-MODE
+;;        The rounding mode to use when the result is not exact.
+;;        Possible values are :NEAREST, :POSITIVE-INFINITY,
+;;        :NEGATIVE-INFINITY and :ZERO.  Setting this away from
+;;        :NEAREST is liable to upset SBCL's maths routines which
+;;        depend on it.
+;;
+;;     :CURRENT-EXCEPTIONS
+;;     :ACCRUED-EXCEPTIONS
+;;        These arguments allow setting of the exception flags.  The
+;;        main use is setting the accrued exceptions to NIL to clear
+;;        them.
+;;
+;;     :FAST-MODE
+;;        Set the hardware's "fast mode" flag, if any.  When set, IEEE
+;;        conformance or debuggability may be impaired.  Some machines
+;;        don't have this feature, and some SBCL ports don't implement
+;;        it anyway -- in such cases the value is always NIL.
+;;
+;;     :PRECISION (x86 only)
+;;       :24-bit, :53-bit and :64-bit, for the internal precision of
+;;       the mantissa.
+;;
+;;     GET-FLOATING-POINT-MODES may be used to find the floating point
+;;     modes currently in effect.  SAVE-LISP-AND-DIE preserves the
+;;     floating point modes in effect.
+(defconst sbcl-rounding-mode-alist '((:nearest-even . :nearest)
+				     (:nearest-away . nil)
+				     (:up . :positive-infinity)
+				     (:down . :negative-infinity)
+				     (:zero . :zero))
+  "Closer Float rounding modes.")
+
+(defsubst get-rounding-mode ()
+  (car (rassoc (getf (sb-int:get-floating-point-modes) :rounding-mode) sbcl-rounding-mode-alist)))
+
+(defsubst set-rounding-mode (rounding-mode)
+  (alexandria:if-let ((value (cdr (assoc rounding-mode sbcl-rounding-mode-alist))))
+      (sb-int:set-floating-point-modes :rounding-mode value)
+    (error 'program-error)))
+
 ;;; closer-float-sbcl.lisp ends here
