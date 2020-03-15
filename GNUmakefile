@@ -46,7 +46,7 @@ VERSION = 0.0
 	markdown $< > $@~ && mv -f $@~ $@
 
 .PHONY: all
-all: $(PACKAGE).asd
+all: $(PACKAGE).asd README.html
 
 .PHONY: check
 check: all
@@ -59,7 +59,7 @@ doc:
 	sbcl --non-interactive --load generate-doc.lisp
 
 .PHONY: sync
-sync: all README.html
+sync: all
 	~/src/github/github.sh $(PACKAGE)
 
 ## GNUmakefile ends here
