@@ -9,4 +9,6 @@ and ISO/IEC 10967 features.
 
 - Implement basic features.
 - Incorporate IEEE 754 test suites.
+  - https://www.research.ibm.com/haifa/projects/verification/fpgen/ieeets.html
+  - https://www.math.utah.edu/~beebe/software/ieee/
 - Add support for other Lisp implementations.
