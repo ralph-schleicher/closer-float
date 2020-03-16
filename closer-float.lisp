@@ -275,7 +275,7 @@ Thus, chances are low that this rounding mode is supported."
       (documentation 'rounding-mode 'function))
 
 (export 'with-rounding-mode)
-(defmacro with-rounding-mode (rounding-mode &rest body)
+(defmacro with-rounding-mode (rounding-mode &body body)
   "Establish a lexical environment with the current rounding mode set
 to ROUNDING-MODE.  If argument ROUNDING-MODE is ‘nil’, don't change
 the current rounding mode.  When BODY returns, the previous rounding
