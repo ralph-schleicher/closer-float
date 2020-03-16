@@ -274,6 +274,7 @@ Thus, chances are low that this rounding mode is supported."
 (setf (documentation '(setf rounding-mode) 'function)
       (documentation 'rounding-mode 'function))
 
+(export 'with-rounding-mode)
 (defmacro with-rounding-mode (rounding-mode &rest body)
   "Establish a lexical environment with the current rounding mode set
 to ROUNDING-MODE.  If argument ROUNDING-MODE is ‘nil’, don't change
