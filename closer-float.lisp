@@ -219,7 +219,13 @@ The following identities hold:
       "True if the floating-point number argument is a signaling not-a-number.")
 
 ;; Rounding.
-(defvar *rounding-mode* (ignore-errors (get-rounding-mode))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when (and (fboundp 'get-rounding-mode)
+	     (fboundp 'set-rounding-mode))
+    (pushnew :closer-float-rounding-mode *features*)))
+
+(defvar *rounding-mode* (progn #+closer-float-rounding-mode (get-rounding-mode))
   "The current rounding mode.
 Value is one of the following.
 
@@ -238,7 +244,8 @@ Value is one of the following.
      :zero
           Direct rounding towards zero.
 
-A value of ‘nil’ means that the rounding mode is undefined.
+     nil
+         Rounding mode is undefined.
 
 When setting the rounding mode, ‘:nearest’ is a synonym for
 ‘:nearest-even’.
@@ -246,16 +253,21 @@ When setting the rounding mode, ‘:nearest’ is a synonym for
 The ‘:nearest-away’ rounding mode is defined by IEEE 754 but
 not, for example, in the C floating-point environment ‘fenv.h’.
 Thus, chances are low that this rounding mode is supported.")
+(proclaim '(type (member :nearest-even :nearest-away :up :down :zero nil) *rounding-mode*))
 
-(defun rounding-mode ()
+;; Always query the actual value in case the rounding mode is
+;; modified behind our back.
+(defsubst rounding-mode ()
+  #-closer-float-rounding-mode
+  (fix-me 'rounding-mode)
   (get-rounding-mode))
 (setf (documentation 'rounding-mode 'function)
       (documentation '*rounding-mode* 'variable))
 
 (defun (setf rounding-mode) (value)
+  #-closer-float-rounding-mode
+  (fix-me 'rounding-mode)
   (check-type value (member :nearest :nearest-even :nearest-away :up :down :zero))
-  (when (null *rounding-mode*)
-    (error 'program-error))
   (let ((rounding-mode (if (eq value :nearest) :nearest-even value)))
     (set-rounding-mode rounding-mode)
     (setf *rounding-mode* rounding-mode)))
@@ -274,6 +286,7 @@ mode is restored. "
 	      (when ,rounding-mode
 		(setf (rounding-mode) ,rounding-mode))
 	      ,@body)
-	 (setf (rounding-mode) *rounding-mode*)))))
+	 (when (not (null *rounding-mode*))
+	   (setf (rounding-mode) *rounding-mode*))))))
 
 ;;; closer-float.lisp ends here
