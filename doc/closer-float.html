@@ -238,6 +238,12 @@ available.</pre>
        <span class="symbol">single-float-signaling-not-a-number</span>
       </a>
      </li>
+     <li>
+      <a href="#_361a5e8a-9182-5147-a56f-44f1937eda1b">
+       <span class="category">Macro</span>
+       <span class="symbol">with-rounding-mode</span>
+      </a>
+     </li>
     </ul>
    </div>
   </div>
@@ -933,6 +939,30 @@ The following identities hold:
     </div>
     <div class="documentation">
      <pre>Value of a signaling not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_361a5e8a-9182-5147-a56f-44f1937eda1b">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">with-rounding-mode</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="lambda-list-keyword">&amp;rest</span> <span class="variable">args</span>)</span></td>
+	<td class="category"><span class="category">Macro</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Establish a lexical environment with the current rounding mode set
+to ROUNDING-MODE.  If argument ROUNDING-MODE is ‘nil’, don't change
+the current rounding mode.  When BODY returns, the previous rounding
+mode is restored. </pre>
     </div>
    </div>
   </div>
