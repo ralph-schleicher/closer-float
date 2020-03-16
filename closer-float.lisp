@@ -226,7 +226,14 @@ The following identities hold:
     (pushnew :closer-float-rounding-mode *features*)))
 
 (defvar *rounding-mode* (progn #+closer-float-rounding-mode (get-rounding-mode))
-  "The current rounding mode.
+  "The current rounding mode.")
+(proclaim '(type (member :nearest-even :nearest-away :up :down :zero nil) *rounding-mode*))
+
+;; Always query the actual value in case the rounding mode is
+;; modified behind our back.
+(export 'rounding-mode)
+(defsubst rounding-mode ()
+  "Accessor for the floating-point rounding mode.
 Value is one of the following.
 
      :nearest-even
@@ -252,17 +259,10 @@ When setting the rounding mode, ‘:nearest’ is a synonym for
 
 The ‘:nearest-away’ rounding mode is defined by IEEE 754 but
 not, for example, in the C floating-point environment ‘fenv.h’.
-Thus, chances are low that this rounding mode is supported.")
-(proclaim '(type (member :nearest-even :nearest-away :up :down :zero nil) *rounding-mode*))
-
-;; Always query the actual value in case the rounding mode is
-;; modified behind our back.
-(defsubst rounding-mode ()
+Thus, chances are low that this rounding mode is supported."
   #-closer-float-rounding-mode
   (fix-me 'rounding-mode)
   (get-rounding-mode))
-(setf (documentation 'rounding-mode 'function)
-      (documentation '*rounding-mode* 'variable))
 
 (defun (setf rounding-mode) (value)
   #-closer-float-rounding-mode
@@ -271,8 +271,8 @@ Thus, chances are low that this rounding mode is supported.")
   (let ((rounding-mode (if (eq value :nearest) :nearest-even value)))
     (set-rounding-mode rounding-mode)
     (setf *rounding-mode* rounding-mode)))
-(setf (documentation 'rounding-mode 'function)
-      (documentation '*rounding-mode* 'variable))
+(setf (documentation '(setf rounding-mode) 'function)
+      (documentation 'rounding-mode 'function))
 
 (defmacro with-rounding-mode (rounding-mode &rest body)
   "Establish a lexical environment with the current rounding mode set
