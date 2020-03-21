@@ -66,28 +66,21 @@
 ;; Predicates.
 (defsubst float-positive-infinity-p (x)
   (declare (type float x))
-  (etypecase x
-    (single-float
-     (= x single-float-positive-infinity))
-    (double-float
-     (= x double-float-positive-infinity))))
+  (and (ccl::infinity-p x)
+       (plusp x)))
 
 (defsubst float-negative-infinity-p (x)
   (declare (type float x))
-  (etypecase x
-    (single-float
-     (= x single-float-negative-infinity))
-    (double-float
-     (= x double-float-negative-infinity))))
+  (and (ccl::infinity-p x)
+       (minusp x)))
 
 (defsubst float-infinity-p (x)
   (declare (type float x))
-  (or (float-positive-infinity-p x)
-      (float-negative-infinity-p x)))
+  (ccl::infinity-p x))
 
 (defsubst float-not-a-number-p (x)
   (declare (type float x))
   (and (ccl::nan-or-infinity-p x)
-       (not (float-infinity-p x))))
+       (not (ccl::infinity-p x))))
 
 ;;; closer-float-ccl.lisp ends here
