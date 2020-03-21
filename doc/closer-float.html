@@ -45,8 +45,34 @@
 Provide a common interface to IEEE 754 (a.k.a. ISO/IEC/IEEE 60559)
 and ISO/IEC 10967 features.
 
-If a symbol is not bound, then the corresponding feature is not
-available.</pre>
+The general rule is: If a symbol is not bound, then the corresponding
+feature is not supported by the implementation.  Therefore, you can
+use ‘boundp’ and ‘fboundp’ to check for a feature at run-time.
+
+As an alternative, the Closer Float library also defines some feature
+test macros to check for features at compile-time.  Below is a list of
+all feature test macros together with their meaning.
+
+closer-float-sign-symmetry
+     True if there is sign symmetry in the range of floating-point
+     numbers.  That means, for any positive floating-point number
+     there is a corresponding negative floating-point number.  This
+     includes positive and negative infinity if infinite numbers are
+     defined.
+
+closer-float-infinity
+     True if the positive and negative infinity constants and the
+     respective predicate functions ‘float-positive-infinity-p’ and
+     ‘float-negative-infinity-p’ are defined for all float types.  If
+     sign symmetry is defined, the sign symmetric infinity constants
+     and the predicate function ‘float-infinity-p’ are defined, too.
+
+closer-float-not-a-number
+     True if a default not-a-number constant and the predicate
+     function ‘float-not-a-number-p’ is defined for all float types.
+
+closer-float-rounding-mode
+     True if the floating-point rounding mode is accessible.</pre>
   </div>
   <div class="contents" id="contents">
    <h2>Contents</h2>
@@ -270,6 +296,7 @@ available.</pre>
 The following identities hold:
 
      (= double-float-infinity double-float-positive-infinity)
+and
      (= (- double-float-infinity) double-float-negative-infinity)</pre>
     </div>
    </div>
@@ -526,6 +553,7 @@ The following identities hold:
 The following identities hold:
 
      (= long-float-infinity long-float-positive-infinity)
+and
      (= (- long-float-infinity) long-float-negative-infinity)</pre>
     </div>
    </div>
@@ -703,6 +731,7 @@ Thus, chances are low that this rounding mode is supported.</pre>
 The following identities hold:
 
      (= short-float-infinity short-float-positive-infinity)
+and
      (= (- short-float-infinity) short-float-negative-infinity)</pre>
     </div>
    </div>
@@ -833,6 +862,7 @@ The following identities hold:
 The following identities hold:
 
      (= single-float-infinity single-float-positive-infinity)
+and
      (= (- single-float-infinity) single-float-negative-infinity)</pre>
     </div>
    </div>
