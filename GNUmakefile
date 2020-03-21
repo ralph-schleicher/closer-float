@@ -50,7 +50,7 @@ all: $(PACKAGE).asd README.html
 
 .PHONY: check
 check: all
-	quicklisp-check-build -sbcl $(PACKAGE)
+	quicklisp-check-build -sbcl -ccl $(PACKAGE)
 
 ### Maintenance
 
