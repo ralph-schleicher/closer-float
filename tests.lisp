@@ -37,6 +37,7 @@
 
 (ql:quickload :iterate)
 (ql:quickload :lisp-unit)
+(ql:quickload :closer-float)
 
 (defpackage :closer-float-tests
   (:use :common-lisp
