@@ -72,19 +72,13 @@
 
 (defsubst float-positive-infinity-p (x)
   (declare (type float x))
-  (etypecase x
-    (single-float
-     (= x sb-ext:single-float-positive-infinity))
-    (double-float
-     (= x sb-ext:double-float-positive-infinity))))
+  (and (sb-ext:float-infinity-p x)
+       (plusp x)))
 
 (defsubst float-negative-infinity-p (x)
   (declare (type float x))
-  (etypecase x
-    (single-float
-     (= x sb-ext:single-float-negative-infinity))
-    (double-float
-     (= x sb-ext:double-float-negative-infinity))))
+  (and (sb-ext:float-infinity-p x)
+       (minusp x)))
 
 (defsubst float-not-a-number-p (x)
   (declare (type float x))
@@ -95,9 +89,12 @@
   (and (sb-ext:float-nan-p x)
        (not (sb-ext:float-trapping-nan-p x))))
 
+;; Note: ‘sb-ext:float-trapping-nan-p’ only checks the quiet/signaling
+;; bit of the significant.
 (defsubst float-signaling-not-a-number-p (x)
   (declare (type float x))
-  (sb-ext:float-trapping-nan-p x))
+  (and (sb-ext:float-nan-p x)
+       (sb-ext:float-trapping-nan-p x)))
 
 ;; Rounding.
 
