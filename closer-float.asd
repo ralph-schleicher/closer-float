@@ -43,6 +43,8 @@
   :depends-on (:alexandria)
   :serial t
   :components ((:file "package")
+	       #+ccl
+	       (:file "closer-float-ccl")
 	       #+sbcl
 	       (:file "closer-float-sbcl")
 	       (:file "closer-float")))
