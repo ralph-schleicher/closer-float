@@ -35,6 +35,8 @@
 
 (in-package :closer-float)
 
+;;;; Infinity
+
 ;; Positive infinity.
 (export 'short-float-positive-infinity)
 (setf (documentation 'short-float-positive-infinity 'variable)
@@ -69,54 +71,100 @@
 (setf (documentation 'long-float-negative-infinity 'variable)
       "Value of negative infinity.")
 
-;; Plus-minus infinity.
+;; Predicates.
+(export 'float-positive-infinity-p)
+(setf (documentation 'float-positive-infinity-p 'function)
+      "True if the floating-point number argument is equal to positive infinity.")
+
+(export 'float-negative-infinity-p)
+(setf (documentation 'float-negative-infinity-p 'function)
+      "True if the floating-point number argument is equal to negative infinity.")
+
+(export 'float-infinity-p)
+(setf (documentation 'float-infinity-p 'function)
+      "True if the floating-point number argument is infinite.")
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when (and (boundp 'short-float-positive-infinity)
+	     (boundp 'short-float-negative-infinity)
+	     (boundp 'single-float-positive-infinity)
+	     (boundp 'single-float-negative-infinity)
+	     (boundp 'double-float-positive-infinity)
+	     (boundp 'double-float-negative-infinity)
+	     (boundp 'long-float-positive-infinity)
+	     (boundp 'long-float-negative-infinity)
+	     (fboundp 'float-positive-infinity-p)
+	     (fboundp 'float-negative-infinity-p))
+    (pushnew :closer-float-infinity *features*)))
+
+;; Sign symmetry in the range of floating-point numbers.
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when (and (= (- most-positive-short-float)
+		most-negative-short-float)
+	     (= (- most-positive-single-float)
+		most-negative-single-float)
+	     (= (- most-positive-double-float)
+		most-negative-double-float)
+	     (= (- most-positive-long-float)
+		most-negative-long-float)
+	     #+closer-float-infinity
+	     (ignore-errors
+	      (and (= (- short-float-positive-infinity)
+		      short-float-negative-infinity)
+		   (= (- single-float-positive-infinity)
+		      single-float-negative-infinity)
+		   (= (- double-float-positive-infinity)
+		      double-float-negative-infinity)
+		   (= (- long-float-positive-infinity)
+		      long-float-negative-infinity)
+		   (fboundp 'float-infinity-p))))
+    (pushnew :closer-float-sign-symmetry *features*)))
+
 (export 'short-float-infinity)
-(when (and (boundp 'short-float-positive-infinity)
-	   (boundp 'short-float-negative-infinity)
-	   (= (- short-float-positive-infinity) short-float-negative-infinity))
-  (defconst short-float-infinity short-float-positive-infinity))
+#+(and closer-float-infinity closer-float-sign-symmetry)
+(defconst short-float-infinity short-float-positive-infinity)
 (setf (documentation 'short-float-infinity 'variable)
       "Value of positive infinity.
 The following identities hold:
 
      (= short-float-infinity short-float-positive-infinity)
+and
      (= (- short-float-infinity) short-float-negative-infinity)")
 
 (export 'single-float-infinity)
-(when (and (boundp 'single-float-positive-infinity)
-	   (boundp 'single-float-negative-infinity)
-	   (= (- single-float-positive-infinity) single-float-negative-infinity))
-  (defconst single-float-infinity single-float-positive-infinity))
+#+(and closer-float-infinity closer-float-sign-symmetry)
+(defconst single-float-infinity single-float-positive-infinity)
 (setf (documentation 'single-float-infinity 'variable)
       "Value of positive infinity.
 The following identities hold:
 
      (= single-float-infinity single-float-positive-infinity)
+and
      (= (- single-float-infinity) single-float-negative-infinity)")
 
 (export 'double-float-infinity)
-(when (and (boundp 'double-float-positive-infinity)
-	   (boundp 'double-float-negative-infinity)
-	   (= (- double-float-positive-infinity) double-float-negative-infinity))
-  (defconst double-float-infinity double-float-positive-infinity))
+#+(and closer-float-infinity closer-float-sign-symmetry)
+(defconst double-float-infinity double-float-positive-infinity)
 (setf (documentation 'double-float-infinity 'variable)
       "Value of positive infinity.
 The following identities hold:
 
      (= double-float-infinity double-float-positive-infinity)
+and
      (= (- double-float-infinity) double-float-negative-infinity)")
 
 (export 'long-float-infinity)
-(when (and (boundp 'long-float-positive-infinity)
-	   (boundp 'long-float-negative-infinity)
-	   (= (- long-float-positive-infinity) long-float-negative-infinity))
-  (defconst long-float-infinity long-float-positive-infinity))
+#+(and closer-float-infinity closer-float-sign-symmetry)
+(defconst long-float-infinity long-float-positive-infinity)
 (setf (documentation 'long-float-infinity 'variable)
       "Value of positive infinity.
 The following identities hold:
 
      (= long-float-infinity long-float-positive-infinity)
+and
      (= (- long-float-infinity) long-float-negative-infinity)")
+
+;;;; Not-a-Number
 
 ;; Quiet not-a-number.
 (export 'short-float-quiet-not-a-number)
@@ -154,62 +202,50 @@ The following identities hold:
 
 ;; Default not-a-number.
 (export 'short-float-not-a-number)
-(when (and (not (boundp 'short-float-not-a-number))
-	   (boundp 'short-float-quiet-not-a-number))
-  (defconst short-float-not-a-number short-float-quiet-not-a-number))
-(when (and (not (boundp 'short-float-not-a-number))
-	   (boundp 'short-float-signaling-not-a-number))
-  (defconst short-float-not-a-number short-float-signaling-not-a-number))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when (and (not (boundp 'short-float-not-a-number))
+	     (boundp 'short-float-quiet-not-a-number))
+    (defconst short-float-not-a-number short-float-quiet-not-a-number))
+  (when (and (not (boundp 'short-float-not-a-number))
+	     (boundp 'short-float-signaling-not-a-number))
+    (defconst short-float-not-a-number short-float-signaling-not-a-number)))
 (setf (documentation 'short-float-not-a-number 'variable)
       "Value of the default not-a-number.")
 
 (export 'single-float-not-a-number)
-(when (and (not (boundp 'single-float-not-a-number))
-	   (boundp 'single-float-quiet-not-a-number))
-  (defconst single-float-not-a-number single-float-quiet-not-a-number))
-(when (and (not (boundp 'single-float-not-a-number))
-	   (boundp 'single-float-signaling-not-a-number))
-  (defconst single-float-not-a-number single-float-signaling-not-a-number))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when (and (not (boundp 'single-float-not-a-number))
+	     (boundp 'single-float-quiet-not-a-number))
+    (defconst single-float-not-a-number single-float-quiet-not-a-number))
+  (when (and (not (boundp 'single-float-not-a-number))
+	     (boundp 'single-float-signaling-not-a-number))
+    (defconst single-float-not-a-number single-float-signaling-not-a-number)))
 (setf (documentation 'single-float-not-a-number 'variable)
       "Value of the default not-a-number.")
 
 (export 'double-float-not-a-number)
-(when (and (not (boundp 'double-float-not-a-number))
-	   (boundp 'double-float-quiet-not-a-number))
-  (defconst double-float-not-a-number double-float-quiet-not-a-number))
-(when (and (not (boundp 'double-float-not-a-number))
-	   (boundp 'double-float-signaling-not-a-number))
-  (defconst double-float-not-a-number double-float-signaling-not-a-number))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when (and (not (boundp 'double-float-not-a-number))
+	     (boundp 'double-float-quiet-not-a-number))
+    (defconst double-float-not-a-number double-float-quiet-not-a-number))
+  (when (and (not (boundp 'double-float-not-a-number))
+	     (boundp 'double-float-signaling-not-a-number))
+    (defconst double-float-not-a-number double-float-signaling-not-a-number)))
 (setf (documentation 'double-float-not-a-number 'variable)
       "Value of the default not-a-number.")
 
 (export 'long-float-not-a-number)
-(when (and (not (boundp 'long-float-not-a-number))
-	   (boundp 'long-float-quiet-not-a-number))
-  (defconst long-float-not-a-number long-float-quiet-not-a-number))
-(when (and (not (boundp 'long-float-not-a-number))
-	   (boundp 'long-float-signaling-not-a-number))
-  (defconst long-float-not-a-number long-float-signaling-not-a-number))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when (and (not (boundp 'long-float-not-a-number))
+	     (boundp 'long-float-quiet-not-a-number))
+    (defconst long-float-not-a-number long-float-quiet-not-a-number))
+  (when (and (not (boundp 'long-float-not-a-number))
+	     (boundp 'long-float-signaling-not-a-number))
+    (defconst long-float-not-a-number long-float-signaling-not-a-number)))
 (setf (documentation 'long-float-not-a-number 'variable)
       "Value of the default not-a-number.")
 
 ;; Predicates.
-(export 'float-infinity-p)
-(setf (documentation 'float-infinity-p 'function)
-      "True if the floating-point number argument is infinite.")
-
-(export 'float-positive-infinity-p)
-(setf (documentation 'float-positive-infinity-p 'function)
-      "True if the floating-point number argument is equal to positive infinity.")
-
-(export 'float-negative-infinity-p)
-(setf (documentation 'float-negative-infinity-p 'function)
-      "True if the floating-point number argument is equal to negative infinity.")
-
-(export 'float-not-a-number-p)
-(setf (documentation 'float-not-a-number-p 'function)
-      "True if the floating-point number argument is not-a-number.")
-
 (export 'float-quiet-not-a-number-p)
 (setf (documentation 'float-quiet-not-a-number-p 'function)
       "True if the floating-point number argument is a quiet not-a-number.")
@@ -218,7 +254,19 @@ The following identities hold:
 (setf (documentation 'float-signaling-not-a-number-p 'function)
       "True if the floating-point number argument is a signaling not-a-number.")
 
-;; Rounding.
+(export 'float-not-a-number-p)
+(setf (documentation 'float-not-a-number-p 'function)
+      "True if the floating-point number argument is not-a-number.")
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when (and (boundp 'short-float-not-a-number)
+	     (boundp 'single-float-not-a-number)
+	     (boundp 'double-float-not-a-number)
+	     (boundp 'long-float-not-a-number)
+	     (fboundp 'float-not-a-number-p))
+    (pushnew :closer-float-not-a-number *features*)))
+
+;;;; Rounding Mode
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (when (and (fboundp 'get-rounding-mode)
