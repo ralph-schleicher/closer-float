@@ -50,6 +50,12 @@ As an alternative, the Closer Float library also defines some feature
 test macros to check for features at compile-time.  Below is a list of
 all feature test macros together with their meaning.
 
+closer-float-signed-zero
+     True if there are distinct representations for positive and
+     negative floating-point zero.  If so, the predicate functions
+     ‘float-positive-zero-p’ and ‘float-negative-zero-p’ are defined
+     for all float types.
+
 closer-float-sign-symmetry
      True if there is sign symmetry in the range of floating-point
      numbers.  That means, for any positive floating-point number
