@@ -35,6 +35,31 @@
 
 (in-package :closer-float)
 
+;;;; Zero
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when (and (= (float-sign -0S0) (float-sign (- 0S0)) -1S0)
+	     (= (float-sign -0F0) (float-sign (- 0F0)) -1F0)
+	     (= (float-sign -0D0) (float-sign (- 0D0)) -1D0)
+	     (= (float-sign -0L0) (float-sign (- 0L0)) -1L0))
+    (pushnew :closer-float-signed-zero *features*)))
+
+(export 'float-positive-zero-p)
+#+closer-float-signed-zero
+(defsubst float-positive-zero-p (x)
+  (declare (type float x))
+  (plusp (float-sign x)))
+(setf (documentation 'float-positive-zero-p 'function)
+      "True if the floating-point number argument is equal to positive zero.")
+
+(export 'float-negative-zero-p)
+#+closer-float-signed-zero
+(defsubst float-negative-zero-p (x)
+  (declare (type float x))
+  (minusp (float-sign x)))
+(setf (documentation 'float-negative-zero-p 'function)
+      "True if the floating-point number argument is equal to negative zero.")
+
 ;;;; Infinity
 
 ;; Positive infinity.
