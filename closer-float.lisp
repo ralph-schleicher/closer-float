@@ -275,7 +275,7 @@ and
 
 (defvar *rounding-mode* (progn #+closer-float-rounding-mode (get-rounding-mode))
   "The current rounding mode.")
-(proclaim '(type (member :nearest-even :nearest-away :up :down :zero nil) *rounding-mode*))
+(declaim (type (member :nearest-even :nearest-away :up :down :zero nil) *rounding-mode*))
 
 (export 'rounding-mode)
 #+closer-float-rounding-mode
