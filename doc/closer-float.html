@@ -53,6 +53,12 @@ As an alternative, the Closer Float library also defines some feature
 test macros to check for features at compile-time.  Below is a list of
 all feature test macros together with their meaning.
 
+closer-float-signed-zero
+     True if there are distinct representations for positive and
+     negative floating-point zero.  If so, the predicate functions
+     ‘float-positive-zero-p’ and ‘float-negative-zero-p’ are defined
+     for all float types.
+
 closer-float-sign-symmetry
      True if there is sign symmetry in the range of floating-point
      numbers.  That means, for any positive floating-point number
@@ -127,6 +133,12 @@ closer-float-rounding-mode
       </a>
      </li>
      <li>
+      <a href="#_f666b57b-60be-55cd-a960-0daef11e3982">
+       <span class="category">Function</span>
+       <span class="symbol">float-negative-zero-p</span>
+      </a>
+     </li>
+     <li>
       <a href="#_4f2ea92d-08a1-5360-b3ed-38acab90710a">
        <span class="category">Function</span>
        <span class="symbol">float-not-a-number-p</span>
@@ -136,6 +148,12 @@ closer-float-rounding-mode
       <a href="#_081547af-4995-5685-9ea3-c36a6d01dda9">
        <span class="category">Function</span>
        <span class="symbol">float-positive-infinity-p</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_61214219-ca4c-57e2-b8ac-d267a3c8da40">
+       <span class="category">Function</span>
+       <span class="symbol">float-positive-zero-p</span>
       </a>
      </li>
      <li>
@@ -447,6 +465,27 @@ and
      <pre>True if the floating-point number argument is equal to negative infinity.</pre>
     </div>
    </div>
+   <div class="definition" id="_f666b57b-60be-55cd-a960-0daef11e3982">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">float-negative-zero-p</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">x</span>)</span></td>
+	<td class="category"><span class="category">Function</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>True if the floating-point number argument is equal to negative zero.</pre>
+    </div>
+   </div>
    <div class="definition" id="_4f2ea92d-08a1-5360-b3ed-38acab90710a">
     <div class="signature">
      <table class="signature">
@@ -487,6 +526,27 @@ and
     </div>
     <div class="documentation">
      <pre>True if the floating-point number argument is equal to positive infinity.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_61214219-ca4c-57e2-b8ac-d267a3c8da40">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">float-positive-zero-p</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">x</span>)</span></td>
+	<td class="category"><span class="category">Function</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>True if the floating-point number argument is equal to positive zero.</pre>
     </div>
    </div>
    <div class="definition" id="_69898938-92d7-56a0-b090-bd516e4710f9">
