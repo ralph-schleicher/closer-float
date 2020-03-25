@@ -48,7 +48,8 @@
 #+closer-float-signed-zero
 (defsubst float-positive-zero-p (x)
   (declare (type float x))
-  (plusp (float-sign x)))
+  (and (zerop x)
+       (plusp (float-sign x))))
 (setf (documentation 'float-positive-zero-p 'function)
       "True if the floating-point number argument is equal to positive zero.")
 
@@ -56,7 +57,8 @@
 #+closer-float-signed-zero
 (defsubst float-negative-zero-p (x)
   (declare (type float x))
-  (minusp (float-sign x)))
+  (and (zerop x)
+       (minusp (float-sign x))))
 (setf (documentation 'float-negative-zero-p 'function)
       "True if the floating-point number argument is equal to negative zero.")
 
