@@ -36,7 +36,7 @@
 (in-package :common-lisp-user)
 
 (defpackage :closer-float
-  (:use :common-lisp)
+  (:use :common-lisp :iterate)
   (:documentation "Closer to floating-point arithmetic.
 
 Provide a common interface to IEEE 754 (a.k.a. ISO/IEC/IEEE 60559)
@@ -79,26 +79,39 @@ closer-float-rounding-mode
 
 (in-package :closer-float)
 
+(define-condition feature-error (program-error)
+  ((symbol
+    :initarg :symbol
+    :initform nil)
+   (type
+    :initarg :type
+    :initform nil))
+  (:report
+   (lambda (c stream)
+     (let ((symbol (slot-value c 'symbol))
+	   (type (slot-value c 'type)))
+       (format stream "~A for ~A on ~A ~A.~%~
+Please send patches to ~A."
+	       (if (null symbol)
+		   "This functionality is not implemented"
+		 (format nil "The ~(~A~) ‘~(~A~)’ is not defined"
+			 (or type (if (fboundp symbol)
+				      "function"
+				    "symbol"))
+			 symbol))
+	       (lisp-implementation-type)
+	       (software-type)
+	       (machine-type)
+	       ;; Mail address or URL for reporting bugs.
+	       (let ((sys (asdf:find-system :closer-float)))
+		 (or (ignore-errors
+		      (asdf:system-maintainer sys))
+		     (ignore-errors
+		      (asdf:system-author sys)))))))))
+
 (defun fix-me (&optional symbol type)
   "Issue a feature improvement request."
-  (error "~A for ~A on ~A ~A.~%~
-Please send patches to <~A>."
-	 (if (null symbol)
-	     "This functionality is not implemented"
-	   (format nil "The ~A ‘~A’ is not defined"
-		   (or type (if (fboundp symbol)
-				"function"
-			      "symbol"))
-		   (symbol-name symbol)))
-	 (lisp-implementation-type)
-	 (software-type)
-	 (machine-type)
-	 ;; Mail address or URL for reporting bugs.
-	 (let ((sys (asdf:find-system :closer-float)))
-	   (or (ignore-errors
-		(asdf:system-maintainer sys))
-	       (ignore-errors
-		(asdf:system-author sys))))))
+  (error 'feature-error :symbol symbol :type type))
 
 (defmacro defconst (name value &optional doc)
   "Define a constant variable.
@@ -117,5 +130,27 @@ for inline expansion by the compiler."
      (declaim (inline ,name))
      (defun ,name ,arg-list
        ,@body)))
+
+(defconst n/a 'n/a
+  "The representation of ‘not applicable’ or ‘not available’.
+The symbol ‘n/a’ is a constant variable bound to itself.")
+
+(defsubst getval (key alist)
+  "Return the ‘cdr’ of the first cons in ALIST whose ‘car’ is equal to KEY,
+or KEY if no such cons is found."
+  (alexandria:if-let ((cell (assoc key alist)))
+      (cdr cell)
+    key))
+
+(defsubst getkey (value alist)
+  "Return the ‘car’ of the first cons in ALIST whose ‘cdr’ is equal to VALUE,
+or VALUE if no such cons is found."
+  (alexandria:if-let ((cell (rassoc value alist)))
+      (car cell)
+    value))
+
+(defconst all-rounding-mode-keywords
+  '(:nearest-even :nearest-away :up :down :zero)
+  "The list of Closer Float rounding mode keywords.")
 
 ;;; package.lisp ends here

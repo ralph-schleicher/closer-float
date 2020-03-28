@@ -83,4 +83,17 @@
   (and (ccl::nan-or-infinity-p x)
        (not (ccl::infinity-p x))))
 
+;; Rounding.
+(defconst rounding-mode-alist '((:nearest-even . :nearest)
+				(:nearest-away . n/a)
+				(:up . :positive)
+				(:down . :negative))
+  "Mapping of Closer Float rounding mode keywords.")
+
+(defsubst get-rounding-mode ()
+  (ccl:get-fpu-mode :rounding-mode))
+
+(defsubst set-rounding-mode (value)
+  (ccl:set-fpu-mode :rounding-mode value))
+
 ;;; closer-float-ccl.lisp ends here
