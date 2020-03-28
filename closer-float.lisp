@@ -300,19 +300,34 @@ and
 	     (fboundp 'set-rounding-mode))
     (pushnew :closer-float-rounding-mode *features*)))
 
-(defvar *rounding-mode* (progn #+closer-float-rounding-mode (get-rounding-mode))
-  "The current rounding mode.")
-(declaim (type (member :nearest-even :nearest-away :up :down :zero nil) *rounding-mode*))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (unless (boundp 'rounding-mode-alist)
+    (defconst rounding-mode-alist ())))
+(setf (documentation 'rounding-mode-alist 'variable)
+      "Mapping of Closer Float rounding mode keywords.
+
+Value is an alist with elements of the form ‘(KEY . VALUE)’
+where KEY is the Closer Float rounding mode keyword and VALUE
+is the corresponding value in the implementation, or ‘n/a’ if
+the rounding mode is not available.  No mapping is required
+if VALUE is equal to KEY.")
+
+(export 'rounding-mode-keywords)
+(defconst rounding-mode-keywords
+  (progn
+    #+closer-float-rounding-mode
+    (iter (for key :in all-rounding-mode-keywords)
+	  (for value = (getval key rounding-mode-alist))
+	  (unless (eq value n/a)
+	    (collect key))))
+  "The list of rounding mode keywords used in the implementation.")
 
 (export 'rounding-mode)
-#+closer-float-rounding-mode
 (defsubst rounding-mode ()
-  ;; Always query the actual value in case the rounding mode is
-  ;; modified behind our back.
-  (get-rounding-mode))
-(setf (documentation 'rounding-mode 'function)
-      "Accessor for the floating-point rounding mode.
-Value is one of the following.
+  "Accessor for the floating-point rounding mode.
+
+Value is a rounding mode keyword.  Below is a table of known
+rounding mode keywords together with their meaning.
 
      :nearest-even
           Round to nearest, ties to even.
@@ -329,41 +344,57 @@ Value is one of the following.
      :zero
           Direct rounding towards zero.
 
-     nil
-         Rounding mode is undefined.
-
 When setting the rounding mode, ‘:nearest’ is a synonym for
 ‘:nearest-even’.
 
-The ‘:nearest-away’ rounding mode is defined by IEEE 754 but
-not, for example, in the C floating-point environment ‘fenv.h’.
-Thus, chances are low that this rounding mode is supported.")
+The ‘:nearest-away’ rounding mode is defined by IEEE 754 as
+an option for the decimal floating-point formats.  It is not
+defined, for example, in the C floating-point environment
+‘fenv.h’.  Thus, chances are low that this rounding mode is
+used in the implementation.
 
-#+closer-float-rounding-mode
-(defun (setf rounding-mode) (value)
-  (check-type value (member :nearest :nearest-even :nearest-away :up :down :zero))
-  (let ((rounding-mode (if (eq value :nearest) :nearest-even value)))
-    (set-rounding-mode rounding-mode)
-    (setf *rounding-mode* rounding-mode)))
+The ‘rounding-mode-keywords’ variable lists the rounding mode
+keywords used in the implementation.
+
+A ‘program-error’ is signaled if you attempt to set a rounding
+mode not used in the implementation."
+  #-closer-float-rounding-mode
+  (fix-me 'rounding-mode 'function)
+  #+closer-float-rounding-mode
+  (getkey (get-rounding-mode) rounding-mode-alist))
+
+(defun (setf rounding-mode) (rounding-mode)
+  (check-type rounding-mode #.(list* 'member :nearest all-rounding-mode-keywords))
+  #-closer-float-rounding-mode
+  (fix-me '(setf rounding-mode) 'function)
+  #+closer-float-rounding-mode
+  (let* ((key (if (eq rounding-mode :nearest) :nearest-even rounding-mode))
+	 (value (getval key rounding-mode-alist)))
+    (when (eq value n/a)
+      (fix-me `(setf (rounding-mode) ,rounding-mode) :operation))
+    (set-rounding-mode value))
+  rounding-mode)
 (setf (documentation '(setf rounding-mode) 'function)
       (documentation 'rounding-mode 'function))
 
 (export 'with-rounding-mode)
-#+closer-float-rounding-mode
 (defmacro with-rounding-mode (rounding-mode &body body)
-  (alexandria:once-only (rounding-mode)
-    `(let ((*rounding-mode* (rounding-mode)))
-       (unwind-protect
-	    (let ((*rounding-mode* *rounding-mode*))
-	      (when ,rounding-mode
-		(setf (rounding-mode) ,rounding-mode))
-	      ,@body)
-	 (when (not (null *rounding-mode*))
-	   (setf (rounding-mode) *rounding-mode*))))))
-(setf (documentation 'with-rounding-mode 'function)
-      "Establish a lexical environment with the current rounding mode set
+  "Establish a lexical environment with the current rounding mode set
 to ROUNDING-MODE.  If argument ROUNDING-MODE is ‘nil’, don't change
 the current rounding mode.  When BODY returns, the previous rounding
-mode is restored. ")
+mode is restored."
+  (check-type rounding-mode #.(list* 'member nil :nearest all-rounding-mode-keywords))
+  #-closer-float-rounding-mode
+  `(fix-me 'with-rounding-mode 'macro)
+  #+closer-float-rounding-mode
+  (let ((saved (gensym "SAVED"))
+	(mode (gensym "MODE")))
+    `(let ((,saved (get-rounding-mode)))
+       (unwind-protect
+	    (progn
+	      (alexandria:when-let ((,mode ,rounding-mode))
+		(setf (rounding-mode) ,mode))
+	      ,@body)
+	 (set-rounding-mode ,saved)))))
 
 ;;; closer-float.lisp ends here
