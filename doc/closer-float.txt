@@ -10,8 +10,8 @@ feature is not supported by the implementation.  Therefore, you can
 use ‘boundp’ and ‘fboundp’ to check for a feature at run-time.
 
 As an alternative, the Closer Float library also defines some feature
-test macros to check for features at compile-time.  Below is a list of
-all feature test macros together with their meaning.
+test macros to check for features at compile-time.  Below is a table
+of all feature test macros together with their meaning.
 
 closer-float-signed-zero
      True if there are distinct representations for positive and
@@ -39,6 +39,9 @@ closer-float-not-a-number
 
 closer-float-rounding-mode
      True if the floating-point rounding mode is accessible.
+
+closer-float-handle-traps
+     True if the floating-point exceptions can be managed.
 
                                                                       [Constant]
 double-float-infinity
