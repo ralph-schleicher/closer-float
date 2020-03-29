@@ -35,33 +35,6 @@
 
 (in-package :closer-float)
 
-;;;; Zero
-
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (when (and (= (float-sign -0S0) (float-sign (- 0S0)) -1S0)
-	     (= (float-sign -0F0) (float-sign (- 0F0)) -1F0)
-	     (= (float-sign -0D0) (float-sign (- 0D0)) -1D0)
-	     (= (float-sign -0L0) (float-sign (- 0L0)) -1L0))
-    (pushnew :closer-float-signed-zero *features*)))
-
-(export 'float-positive-zero-p)
-#+closer-float-signed-zero
-(defsubst float-positive-zero-p (x)
-  (declare (type float x))
-  (and (zerop x)
-       (plusp (float-sign x))))
-(setf (documentation 'float-positive-zero-p 'function)
-      "True if the floating-point number argument is equal to positive zero.")
-
-(export 'float-negative-zero-p)
-#+closer-float-signed-zero
-(defsubst float-negative-zero-p (x)
-  (declare (type float x))
-  (and (zerop x)
-       (minusp (float-sign x))))
-(setf (documentation 'float-negative-zero-p 'function)
-      "True if the floating-point number argument is equal to negative zero.")
-
 ;;;; Infinity
 
 ;; Positive infinity.
@@ -293,6 +266,57 @@ and
 	     (fboundp 'float-not-a-number-p))
     (pushnew :closer-float-not-a-number *features*)))
 
+;;;; Zero
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when (and (= (float-sign -0S0) (float-sign (- 0S0)) -1S0)
+	     (= (float-sign -0F0) (float-sign (- 0F0)) -1F0)
+	     (= (float-sign -0D0) (float-sign (- 0D0)) -1D0)
+	     (= (float-sign -0L0) (float-sign (- 0L0)) -1L0))
+    (pushnew :closer-float-signed-zero *features*)))
+
+(export 'float-zero-p)
+(defsubst float-zero-p (x)
+  (declare (type float x))
+  "True if the argument is zero.
+
+Argument X is any floating-point number, including infinity and
+ not-a-number.
+
+If signed zero is used in the implementation, return true if the
+absolute value of X is zero."
+  #-closer-float-not-a-number
+  (zerop x)
+  #+closer-float-not-a-number
+  (unless (float-not-a-number-p x)
+    (zerop x)))
+
+(export 'float-positive-zero-p)
+(defsubst float-positive-zero-p (x)
+  "True if the argument is positive zero.
+
+Argument X is any floating-point number, including infinity and
+ not-a-number.
+
+If signed zero is not used in the implementation, return true if
+X is zero."
+  (declare (type float x))
+  (and (float-zero-p x)
+       (plusp (float-sign x))))
+
+(export 'float-negative-zero-p)
+(defsubst float-negative-zero-p (x)
+  "True if the argument is negative zero.
+
+Argument X is any floating-point number, including infinity and
+ not-a-number.
+
+If signed zero is not used in the implementation, always return
+false."
+  (declare (type float x))
+  (and (float-zero-p x)
+       (minusp (float-sign x))))
+
 ;;;; Rounding Mode
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
@@ -326,7 +350,7 @@ if VALUE is equal to KEY.")
 (defsubst rounding-mode ()
   "Accessor for the floating-point rounding mode.
 
-Value is a rounding mode keyword.  Below is a table of known
+Value is a rounding mode keyword.  Below is a table of all
 rounding mode keywords together with their meaning.
 
      :nearest-even
