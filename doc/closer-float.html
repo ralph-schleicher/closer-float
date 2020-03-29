@@ -169,6 +169,12 @@ closer-float-rounding-mode
       </a>
      </li>
      <li>
+      <a href="#_7763dd9a-6eb3-581c-b864-b6227268249d">
+       <span class="category">Function</span>
+       <span class="symbol">float-zero-p</span>
+      </a>
+     </li>
+     <li>
       <a href="#_3f75e620-884e-52ca-81dc-6771a329c91a">
        <span class="category">Constant</span>
        <span class="symbol">long-float-infinity</span>
@@ -489,8 +495,13 @@ and
      </table>
     </div>
     <div class="documentation">
-     <pre>True if the floating-point number argument is equal to negative zero.
-If signed zero is not used by the implementation, value is always false.</pre>
+     <pre>True if the argument is negative zero.
+
+Argument X is any floating-point number, including infinity and
+ not-a-number.
+
+If signed zero is not used in the implementation, always return
+false.</pre>
     </div>
    </div>
    <div class="definition" id="_4f2ea92d-08a1-5360-b3ed-38acab90710a">
@@ -553,9 +564,13 @@ If signed zero is not used by the implementation, value is always false.</pre>
      </table>
     </div>
     <div class="documentation">
-     <pre>True if the floating-point number argument is equal to positive zero.
-If signed zero is not used by the implementation, value is true if the
-argument is equal to zero.  Otherwise, value is false.</pre>
+     <pre>True if the argument is positive zero.
+
+Argument X is any floating-point number, including infinity and
+ not-a-number.
+
+If signed zero is not used in the implementation, return true if
+X is zero.</pre>
     </div>
    </div>
    <div class="definition" id="_69898938-92d7-56a0-b090-bd516e4710f9">
@@ -598,6 +613,33 @@ argument is equal to zero.  Otherwise, value is false.</pre>
     </div>
     <div class="documentation">
      <pre>True if the floating-point number argument is a signaling not-a-number.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_7763dd9a-6eb3-581c-b864-b6227268249d">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">float-zero-p</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">x</span>)</span></td>
+	<td class="category"><span class="category">Function</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>True if the argument is zero.
+
+Argument X is any floating-point number, including infinity and
+ not-a-number.
+
+If signed zero is used in the implementation, return true if the
+absolute value of X is zero.</pre>
     </div>
    </div>
    <div class="definition" id="_3f75e620-884e-52ca-81dc-6771a329c91a">
@@ -751,7 +793,7 @@ and
     <div class="documentation">
      <pre>Accessor for the floating-point rounding mode.
 
-Value is a rounding mode keyword.  Below is a table of known
+Value is a rounding mode keyword.  Below is a table of all
 rounding mode keywords together with their meaning.
 
      :nearest-even
