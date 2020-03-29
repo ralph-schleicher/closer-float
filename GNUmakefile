@@ -49,14 +49,22 @@ VERSION = 0.0
 all: $(PACKAGE).asd README.html
 
 .PHONY: check
-check: all
+check: check-build run-tests
+
+.PHONY: check-build
+check-build: all
 	quicklisp-check-build -sbcl -ccl $(PACKAGE)
+
+.PHONY: run-tests
+run-tests: all
+	-run-sbcl --non-interactive --load tests.lisp | tee $@-sbcl.log
+	-run-ccl --batch --load tests.lisp < /dev/null | tee $@-ccl.log
 
 ### Maintenance
 
 .PHONY: doc
 doc:
-	sbcl --non-interactive --load generate-doc.lisp
+	run-sbcl --non-interactive --load generate-doc.lisp
 
 .PHONY: sync
 sync: all
