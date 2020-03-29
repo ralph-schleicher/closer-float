@@ -52,6 +52,20 @@
 (defun ~ (&rest strings)
   (apply #'concatenate 'string (mapcar #'string strings)))
 
+(defparameter +zero
+  (iter (for size :in float-sizes)
+	(for name = (~ size "-FLOAT"))
+	(for symbol = (find-symbol name :common-lisp))
+	(adjoining (coerce 0 symbol))))
+
+(defparameter -zero
+  (progn
+    #+closer-float-signed-zero
+    (mapcar #'- +zero)))
+
+(defparameter zero
+  (concatenate 'list +zero -zero))
+
 (defparameter +inf
   (iter (for size :in float-sizes)
 	(for name = (~ size "-FLOAT-POSITIVE-INFINITY"))
@@ -67,7 +81,7 @@
 	  (adjoining (symbol-value symbol)))))
 
 (defparameter inf
-  (union +inf -inf))
+  (concatenate 'list +inf -inf))
 
 (defparameter qnan
   (iter (for size :in float-sizes)
@@ -102,11 +116,10 @@
 	  (setf name (~ size "-FLOAT"))
 	  (setf symbol (find-symbol name :common-lisp))
 	  (adjoining (coerce  1 symbol))
-	  (adjoining (coerce  0 symbol))
 	  (adjoining (coerce -1 symbol)))))
 
 (defparameter numbers
-  (iter (for item :in (concatenate 'list finite +inf -inf qnan snan nan))
+  (iter (for item :in (concatenate 'list finite zero inf qnan snan nan))
 	(adjoining item)))
 
 (macrolet ((def (name (fun valid))
@@ -119,6 +132,12 @@
 			(assert-true (,fun ,item)))
 		      (dolist (,item (set-difference numbers ,list))
 			(assert-false (,fun ,item)))))))))
+  (def positive-zero
+      (float-positive-zero-p +zero))
+  (def negative-zero
+      (float-negative-zero-p -zero))
+  (def zero
+      (float-zero-p zero))
   (def positive-infinity
       (float-positive-infinity-p +inf))
   (def negative-infinity
