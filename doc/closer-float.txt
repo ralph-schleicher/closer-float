@@ -79,8 +79,13 @@ float-negative-infinity-p (x)
 
                                                                       [Function]
 float-negative-zero-p (x)
-   True if the floating-point number argument is equal to negative zero.
-   If signed zero is not used by the implementation, value is always false.
+   True if the argument is negative zero.
+   
+   Argument X is any floating-point number, including infinity and
+    not-a-number.
+   
+   If signed zero is not used in the implementation, always return
+   false.
 
                                                                       [Function]
 float-not-a-number-p (x)
@@ -92,9 +97,13 @@ float-positive-infinity-p (x)
 
                                                                       [Function]
 float-positive-zero-p (x)
-   True if the floating-point number argument is equal to positive zero.
-   If signed zero is not used by the implementation, value is true if the
-   argument is equal to zero.  Otherwise, value is false.
+   True if the argument is positive zero.
+   
+   Argument X is any floating-point number, including infinity and
+    not-a-number.
+   
+   If signed zero is not used in the implementation, return true if
+   X is zero.
 
                                                                       [Function]
 float-quiet-not-a-number-p (x)
@@ -103,6 +112,16 @@ float-quiet-not-a-number-p (x)
                                                                       [Function]
 float-signaling-not-a-number-p (x)
    True if the floating-point number argument is a signaling not-a-number.
+
+                                                                      [Function]
+float-zero-p (x)
+   True if the argument is zero.
+   
+   Argument X is any floating-point number, including infinity and
+    not-a-number.
+   
+   If signed zero is used in the implementation, return true if the
+   absolute value of X is zero.
 
                                                                       [Constant]
 long-float-infinity
@@ -137,7 +156,7 @@ long-float-signaling-not-a-number
 rounding-mode ()
    Accessor for the floating-point rounding mode.
    
-   Value is a rounding mode keyword.  Below is a table of known
+   Value is a rounding mode keyword.  Below is a table of all
    rounding mode keywords together with their meaning.
    
         :nearest-even
