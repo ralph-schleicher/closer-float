@@ -96,4 +96,22 @@
 (defsubst set-rounding-mode (value)
   (ccl:set-fpu-mode :rounding-mode value))
 
+;; Exceptions.
+(defconst exception-alist '((:invalid-operation . :invalid))
+  "Mapping of Closer Float exception keywords.")
+
+(defconst ccl-exception-keywords
+  '(:invalid :division-by-zero :overflow :underflow :inexact))
+
+(defsubst get-unmasked-traps ()
+  (let (traps)
+    (dolist (trap ccl-exception-keywords)
+      (when (ccl:get-fpu-mode trap)
+	(push trap traps)))
+    (nreverse traps)))
+
+(defsubst set-unmasked-traps (traps)
+  (dolist (trap ccl-exception-keywords)
+    (ccl:set-fpu-mode trap (if (member trap traps) t))))
+
 ;;; closer-float-ccl.lisp ends here

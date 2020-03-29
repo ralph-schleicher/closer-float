@@ -47,8 +47,8 @@ feature is not supported by the implementation.  Therefore, you can
 use ‘boundp’ and ‘fboundp’ to check for a feature at run-time.
 
 As an alternative, the Closer Float library also defines some feature
-test macros to check for features at compile-time.  Below is a list of
-all feature test macros together with their meaning.
+test macros to check for features at compile-time.  Below is a table
+of all feature test macros together with their meaning.
 
 closer-float-signed-zero
      True if there are distinct representations for positive and
@@ -75,7 +75,10 @@ closer-float-not-a-number
      function ‘float-not-a-number-p’ is defined for all float types.
 
 closer-float-rounding-mode
-     True if the floating-point rounding mode is accessible."))
+     True if the floating-point rounding mode is accessible.
+
+closer-float-handle-traps
+     True if the floating-point exceptions can be managed."))
 
 (in-package :closer-float)
 
@@ -152,5 +155,9 @@ or VALUE if no such cons is found."
 (defconst all-rounding-mode-keywords
   '(:nearest-even :nearest-away :up :down :zero)
   "The list of Closer Float rounding mode keywords.")
+
+(defconst all-exception-keywords
+  '(:invalid-operation :division-by-zero :overflow :underflow :inexact)
+  "The list of Closer Float exception keywords.")
 
 ;;; package.lisp ends here

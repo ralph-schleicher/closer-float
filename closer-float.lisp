@@ -344,7 +344,7 @@ if VALUE is equal to KEY.")
 	  (for value = (getval key rounding-mode-alist))
 	  (unless (eq value n/a)
 	    (collect key))))
-  "The list of rounding mode keywords used in the implementation.")
+  "The list of Closer Float rounding mode keywords used in the implementation.")
 
 (export 'rounding-mode)
 (defsubst rounding-mode ()
@@ -420,5 +420,34 @@ mode is restored."
 		(setf (rounding-mode) ,mode))
 	      ,@body)
 	 (set-rounding-mode ,saved)))))
+
+;;;; Exceptions
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when (and (fboundp 'get-unmasked-traps)
+	     (fboundp 'set-unmasked-traps))
+    (pushnew :closer-float-handle-traps *features*)))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (unless (boundp 'exception-alist)
+    (defconst exception-alist ())))
+(setf (documentation 'exception-alist 'variable)
+      "Mapping of Closer Float exception keywords.
+
+Value is an alist with elements of the form ‘(KEY . VALUE)’
+where KEY is the Closer Float exception keyword and VALUE is
+the corresponding value in the implementation, or ‘n/a’ if
+the exception is not available.  No mapping is required
+if VALUE is equal to KEY.")
+
+(export 'exception-keywords)
+(defconst exception-keywords
+  (progn
+    #+closer-float-handle-traps
+    (iter (for key :in all-exception-keywords)
+	  (for value = (getval key exception-alist))
+	  (unless (eq value n/a)
+	    (collect key))))
+  "The list of Closer Float exception keywords used in the implementation.")
 
 ;;; closer-float.lisp ends here

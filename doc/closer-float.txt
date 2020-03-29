@@ -69,6 +69,10 @@ double-float-quiet-not-a-number
 double-float-signaling-not-a-number
    Value of a signaling not-a-number.
 
+                                                                      [Constant]
+exception-keywords
+   The list of Closer Float exception keywords used in the implementation.
+
                                                                       [Function]
 float-infinity-p (x)
    True if the floating-point number argument is infinite.
@@ -191,7 +195,7 @@ rounding-mode ()
 
                                                                       [Constant]
 rounding-mode-keywords
-   The list of rounding mode keywords used in the implementation.
+   The list of Closer Float rounding mode keywords used in the implementation.
 
                                                                       [Constant]
 short-float-infinity
