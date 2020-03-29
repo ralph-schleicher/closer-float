@@ -109,4 +109,15 @@
 (defsubst set-rounding-mode (value)
   (sb-int:set-floating-point-modes :rounding-mode value))
 
+;; Exceptions.
+(defconst exception-alist '((:invalid-operation . :invalid)
+			    (:division-by-zero . :divide-by-zero))
+  "Mapping of Closer Float exception keywords.")
+
+(defsubst get-unmasked-traps ()
+  (getf (sb-int:get-floating-point-modes) :traps))
+
+(defsubst set-unmasked-traps (traps)
+  (sb-int:set-floating-point-modes :traps traps))
+
 ;;; closer-float-sbcl.lisp ends here
