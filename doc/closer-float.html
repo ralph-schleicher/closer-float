@@ -211,6 +211,12 @@ closer-float-rounding-mode
       </a>
      </li>
      <li>
+      <a href="#_5c07d55b-85f7-50ae-af32-371541e210c4">
+       <span class="category">Constant</span>
+       <span class="symbol">rounding-mode-keywords</span>
+      </a>
+     </li>
+     <li>
       <a href="#_d009857a-bf3c-528d-b19b-b01cfaa746ed">
        <span class="category">Constant</span>
        <span class="symbol">short-float-infinity</span>
@@ -483,7 +489,8 @@ and
      </table>
     </div>
     <div class="documentation">
-     <pre>True if the floating-point number argument is equal to negative zero.</pre>
+     <pre>True if the floating-point number argument is equal to negative zero.
+If signed zero is not used by the implementation, value is always false.</pre>
     </div>
    </div>
    <div class="definition" id="_4f2ea92d-08a1-5360-b3ed-38acab90710a">
@@ -546,7 +553,9 @@ and
      </table>
     </div>
     <div class="documentation">
-     <pre>True if the floating-point number argument is equal to positive zero.</pre>
+     <pre>True if the floating-point number argument is equal to positive zero.
+If signed zero is not used by the implementation, value is true if the
+argument is equal to zero.  Otherwise, value is false.</pre>
     </div>
    </div>
    <div class="definition" id="_69898938-92d7-56a0-b090-bd516e4710f9">
@@ -741,7 +750,9 @@ and
     </div>
     <div class="documentation">
      <pre>Accessor for the floating-point rounding mode.
-Value is one of the following.
+
+Value is a rounding mode keyword.  Below is a table of known
+rounding mode keywords together with their meaning.
 
      :nearest-even
           Round to nearest, ties to even.
@@ -758,15 +769,41 @@ Value is one of the following.
      :zero
           Direct rounding towards zero.
 
-     nil
-         Rounding mode is undefined.
-
 When setting the rounding mode, ‘:nearest’ is a synonym for
 ‘:nearest-even’.
 
-The ‘:nearest-away’ rounding mode is defined by IEEE 754 but
-not, for example, in the C floating-point environment ‘fenv.h’.
-Thus, chances are low that this rounding mode is supported.</pre>
+The ‘:nearest-away’ rounding mode is defined by IEEE 754 as
+an option for the decimal floating-point formats.  It is not
+defined, for example, in the C floating-point environment
+‘fenv.h’.  Thus, chances are low that this rounding mode is
+used in the implementation.
+
+The ‘rounding-mode-keywords’ variable lists the rounding mode
+keywords used in the implementation.
+
+A ‘program-error’ is signaled if you attempt to set a rounding
+mode not used in the implementation.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_5c07d55b-85f7-50ae-af32-371541e210c4">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">rounding-mode-keywords</span></a></td>
+	<td class="lambda-list"></td>
+	<td class="category"><span class="category">Constant</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>The list of rounding mode keywords used in the implementation.</pre>
     </div>
    </div>
    <div class="definition" id="_d009857a-bf3c-528d-b19b-b01cfaa746ed">
@@ -1052,7 +1089,7 @@ and
      <pre>Establish a lexical environment with the current rounding mode set
 to ROUNDING-MODE.  If argument ROUNDING-MODE is ‘nil’, don't change
 the current rounding mode.  When BODY returns, the previous rounding
-mode is restored. </pre>
+mode is restored.</pre>
     </div>
    </div>
   </div>
