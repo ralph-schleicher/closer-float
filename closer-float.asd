@@ -40,7 +40,7 @@
   :author "Ralph Schleicher <rs@ralph-schleicher.de>"
   :license "Modified BSD License"
   :version "0.0"
-  :depends-on (:alexandria)
+  :depends-on (:alexandria :iterate)
   :serial t
   :components ((:file "package")
 	       #+ccl
