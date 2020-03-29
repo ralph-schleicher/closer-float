@@ -151,6 +151,32 @@
   (def not-a-number
       (float-not-a-number-p (union (union qnan snan) nan))))
 
+(define-test rounding-mode
+  #+closer-float-rounding-mode
+  (let ((saved (rounding-mode)))
+    (with-rounding-mode nil
+      (assert-true (eq (rounding-mode) saved))
+      (dolist (mode rounding-mode-keywords)
+	(setf (rounding-mode) mode)
+	(expt pi (/ (1+ (random 10)) (1+ (random 10))))
+	(assert-true (eq (rounding-mode) mode))))
+    (when (member :nearest-even rounding-mode-keywords)
+      (with-rounding-mode :nearest
+	(assert-true (eq (rounding-mode) :nearest-even))))
+    (when (member :nearest-away rounding-mode-keywords)
+      (with-rounding-mode :nearest-away
+	(assert-true (eq (rounding-mode) :nearest-away))))
+    (when (member :up rounding-mode-keywords)
+      (with-rounding-mode :up
+	(assert-true (eq (rounding-mode) :up))))
+    (when (member :down rounding-mode-keywords)
+      (with-rounding-mode :down
+	(assert-true (eq (rounding-mode) :down))))
+    (when (member :zero rounding-mode-keywords)
+      (with-rounding-mode :zero
+	(assert-true (eq (rounding-mode) :zero))))
+    (assert-true (eq (rounding-mode) saved))))
+
 (let ((lisp-unit:*print-errors* t)
       (lisp-unit:*print-failures* t)
       (lisp-unit:*print-summary* t))
