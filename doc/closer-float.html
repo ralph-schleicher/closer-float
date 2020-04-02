@@ -220,6 +220,12 @@ closer-float-handle-traps
       </a>
      </li>
      <li>
+      <a href="#_6b4eb1c1-b4f0-5a48-a4d1-6e8ce2eddaaa">
+       <span class="category">Function</span>
+       <span class="symbol">masked-traps</span>
+      </a>
+     </li>
+     <li>
       <a href="#_894b7ef5-20ee-58a7-b6ab-71cb64b7d742">
        <span class="category">Function</span>
        <span class="symbol">rounding-mode</span>
@@ -304,9 +310,39 @@ closer-float-handle-traps
       </a>
      </li>
      <li>
+      <a href="#_6d7a3b5d-85d2-572d-a093-08569e55ba5e">
+       <span class="category">Function</span>
+       <span class="symbol">unmasked-traps</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_c431a9cd-3b7a-533d-9c3f-fd8ff7de7d70">
+       <span class="category">Macro</span>
+       <span class="symbol">with-masked-traps</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_9b9f5b7f-07c0-506b-9ccb-ec182a777939">
+       <span class="category">Macro</span>
+       <span class="symbol">with-masked-traps*</span>
+      </a>
+     </li>
+     <li>
       <a href="#_361a5e8a-9182-5147-a56f-44f1937eda1b">
        <span class="category">Macro</span>
        <span class="symbol">with-rounding-mode</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_b4796894-aa68-5aa2-a0ca-d883a0b58184">
+       <span class="category">Macro</span>
+       <span class="symbol">with-unmasked-traps</span>
+      </a>
+     </li>
+     <li>
+      <a href="#_bae7fe21-79a1-5345-b1f5-5651c22c52dd">
+       <span class="category">Macro</span>
+       <span class="symbol">with-unmasked-traps*</span>
       </a>
      </li>
     </ul>
@@ -462,7 +498,34 @@ and
      </table>
     </div>
     <div class="documentation">
-     <pre>The list of Closer Float exception keywords used in the implementation.</pre>
+     <pre>The list of exception keywords used in the implementation.
+
+Below is a table of all Closer Float exception keywords together
+with their meaning.
+
+     :invalid-operation
+          Invalid operation; ‘floating-point-invalid-operation’
+          condition.
+
+     :division-by-zero
+          Division by zero; ‘division-by-zero’ condition.
+
+     :overflow
+          Floating-point overflow; ‘floating-point-overflow’
+          condition.
+
+     :underflow
+          Floating-point underflow; ‘floating-point-underflow’
+          condition.
+
+     :inexact
+          Inexact result; ‘floating-point-inexact’ condition.
+
+The value and meaning of other floating-point exceptions used in
+the implementation is not standardized.  The only known exception
+of this kind is the denormalized operand exception of the Intel
+x86 architecture.  Whether or not non-standard exceptions are
+exposed to the user is implementation dependent.</pre>
     </div>
    </div>
    <div class="definition" id="_bb2ebe29-4547-58ad-b3bc-b560de8efe8d">
@@ -803,6 +866,35 @@ and
      <pre>Value of a signaling not-a-number.</pre>
     </div>
    </div>
+   <div class="definition" id="_6b4eb1c1-b4f0-5a48-a4d1-6e8ce2eddaaa">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">masked-traps</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">()</span></td>
+	<td class="category"><span class="category">Function</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Accessor for the disabled floating-point exceptions.
+
+Value is a list of exception keywords.
+
+The ‘exception-keywords’ variable lists the exception keywords
+used in the implementation.
+
+A ‘program-error’ is signaled if you attempt to mask a trap not
+ used in the implementation.</pre>
+    </div>
+   </div>
    <div class="definition" id="_894b7ef5-20ee-58a7-b6ab-71cb64b7d742">
     <div class="signature">
      <table class="signature">
@@ -1140,6 +1232,83 @@ and
      <pre>Value of a signaling not-a-number.</pre>
     </div>
    </div>
+   <div class="definition" id="_6d7a3b5d-85d2-572d-a093-08569e55ba5e">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">unmasked-traps</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">()</span></td>
+	<td class="category"><span class="category">Function</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Accessor for the enabled floating-point exceptions.
+
+Value is a list of exception keywords.
+
+When enabling floating-point exceptions, a value of ‘t’ is a
+synonym for all exceptions.
+
+The ‘exception-keywords’ variable lists the exception keywords
+used in the implementation.
+
+A ‘program-error’ is signaled if you attempt to unmask a trap,
+i.e. enable an exception, not used in the implementation.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_c431a9cd-3b7a-533d-9c3f-fd8ff7de7d70">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">with-masked-traps</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="lambda-list-keyword">&amp;rest</span> <span class="variable">args</span>)</span></td>
+	<td class="category"><span class="category">Macro</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Establish a lexical environment where the floating-point exceptions
+listed in TRAPS are disabled.  If argument TRAPS is ‘t’, disable all
+exceptions.  When BODY returns, the previous signaling exceptions are
+restored.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_9b9f5b7f-07c0-506b-9ccb-ec182a777939">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">with-masked-traps*</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="lambda-list-keyword">&amp;rest</span> <span class="variable">args</span>)</span></td>
+	<td class="category"><span class="category">Macro</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Like ‘with-masked-traps’ except that traps accumulate.</pre>
+    </div>
+   </div>
    <div class="definition" id="_361a5e8a-9182-5147-a56f-44f1937eda1b">
     <div class="signature">
      <table class="signature">
@@ -1162,6 +1331,51 @@ and
 to ROUNDING-MODE.  If argument ROUNDING-MODE is ‘nil’, don't change
 the current rounding mode.  When BODY returns, the previous rounding
 mode is restored.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_b4796894-aa68-5aa2-a0ca-d883a0b58184">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">with-unmasked-traps</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="lambda-list-keyword">&amp;rest</span> <span class="variable">args</span>)</span></td>
+	<td class="category"><span class="category">Macro</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Establish a lexical environment where the floating-point exceptions
+listed in TRAPS are enabled.  If argument TRAPS is ‘t’, enable all
+exceptions.  When BODY returns, the previous signaling exceptions are
+restored.</pre>
+    </div>
+   </div>
+   <div class="definition" id="_bae7fe21-79a1-5345-b1f5-5651c22c52dd">
+    <div class="signature">
+     <table class="signature">
+      <colgroup>
+       <col />
+       <col />
+       <col />
+      </colgroup>
+      <tbody>
+       <tr>
+	<td class="symbol"><a href="#contents"><span class="symbol">with-unmasked-traps*</span></a></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="lambda-list-keyword">&amp;rest</span> <span class="variable">args</span>)</span></td>
+	<td class="category"><span class="category">Macro</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="documentation">
+     <pre>Like ‘with-unmasked-traps’ except that traps accumulate.</pre>
     </div>
    </div>
   </div>

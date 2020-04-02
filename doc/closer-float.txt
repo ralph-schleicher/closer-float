@@ -74,7 +74,34 @@ double-float-signaling-not-a-number
 
                                                                       [Constant]
 exception-keywords
-   The list of Closer Float exception keywords used in the implementation.
+   The list of exception keywords used in the implementation.
+   
+   Below is a table of all Closer Float exception keywords together
+   with their meaning.
+   
+        :invalid-operation
+             Invalid operation; ‘floating-point-invalid-operation’
+             condition.
+   
+        :division-by-zero
+             Division by zero; ‘division-by-zero’ condition.
+   
+        :overflow
+             Floating-point overflow; ‘floating-point-overflow’
+             condition.
+   
+        :underflow
+             Floating-point underflow; ‘floating-point-underflow’
+             condition.
+   
+        :inexact
+             Inexact result; ‘floating-point-inexact’ condition.
+   
+   The value and meaning of other floating-point exceptions used in
+   the implementation is not standardized.  The only known exception
+   of this kind is the denormalized operand exception of the Intel
+   x86 architecture.  Whether or not non-standard exceptions are
+   exposed to the user is implementation dependent.
 
                                                                       [Function]
 float-infinity-p (x)
@@ -158,6 +185,18 @@ long-float-quiet-not-a-number
                                                                       [Constant]
 long-float-signaling-not-a-number
    Value of a signaling not-a-number.
+
+                                                                      [Function]
+masked-traps ()
+   Accessor for the disabled floating-point exceptions.
+   
+   Value is a list of exception keywords.
+   
+   The ‘exception-keywords’ variable lists the exception keywords
+   used in the implementation.
+   
+   A ‘program-error’ is signaled if you attempt to mask a trap not
+    used in the implementation.
 
                                                                       [Function]
 rounding-mode ()
@@ -258,9 +297,46 @@ single-float-quiet-not-a-number
 single-float-signaling-not-a-number
    Value of a signaling not-a-number.
 
+                                                                      [Function]
+unmasked-traps ()
+   Accessor for the enabled floating-point exceptions.
+   
+   Value is a list of exception keywords.
+   
+   When enabling floating-point exceptions, a value of ‘t’ is a
+   synonym for all exceptions.
+   
+   The ‘exception-keywords’ variable lists the exception keywords
+   used in the implementation.
+   
+   A ‘program-error’ is signaled if you attempt to unmask a trap,
+   i.e. enable an exception, not used in the implementation.
+
+                                                                         [Macro]
+with-masked-traps (&rest args)
+   Establish a lexical environment where the floating-point exceptions
+   listed in TRAPS are disabled.  If argument TRAPS is ‘t’, disable all
+   exceptions.  When BODY returns, the previous signaling exceptions are
+   restored.
+
+                                                                         [Macro]
+with-masked-traps* (&rest args)
+   Like ‘with-masked-traps’ except that traps accumulate.
+
                                                                          [Macro]
 with-rounding-mode (&rest args)
    Establish a lexical environment with the current rounding mode set
    to ROUNDING-MODE.  If argument ROUNDING-MODE is ‘nil’, don't change
    the current rounding mode.  When BODY returns, the previous rounding
    mode is restored.
+
+                                                                         [Macro]
+with-unmasked-traps (&rest args)
+   Establish a lexical environment where the floating-point exceptions
+   listed in TRAPS are enabled.  If argument TRAPS is ‘t’, enable all
+   exceptions.  When BODY returns, the previous signaling exceptions are
+   restored.
+
+                                                                         [Macro]
+with-unmasked-traps* (&rest args)
+   Like ‘with-unmasked-traps’ except that traps accumulate.
