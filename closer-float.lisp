@@ -442,12 +442,154 @@ if VALUE is equal to KEY.")
 
 (export 'exception-keywords)
 (defconst exception-keywords
-  (progn
+  (let (traps)
     #+closer-float-handle-traps
-    (iter (for key :in all-exception-keywords)
-	  (for value = (getval key exception-alist))
-	  (unless (eq value n/a)
-	    (collect key))))
-  "The list of Closer Float exception keywords used in the implementation.")
+    (progn
+      ;; Closer Float keywords.
+      (iter (for key :in all-exception-keywords)
+	    (for value = (getval key exception-alist))
+	    (unless (eq value n/a)
+	      (push key traps)))
+      ;; Implementation keywords.
+      (iter (for (key . value) :in exception-alist)
+	    (when (eq key n/a)
+	      (pushnew value traps))))
+    (nreverse traps))
+  "The list of exception keywords used in the implementation.
+
+Below is a table of all Closer Float exception keywords together
+with their meaning.
+
+     :invalid-operation
+          Invalid operation; ‘floating-point-invalid-operation’
+          condition.
+
+     :division-by-zero
+          Division by zero; ‘division-by-zero’ condition.
+
+     :overflow
+          Floating-point overflow; ‘floating-point-overflow’
+          condition.
+
+     :underflow
+          Floating-point underflow; ‘floating-point-underflow’
+          condition.
+
+     :inexact
+          Inexact result; ‘floating-point-inexact’ condition.
+
+The value and meaning of other floating-point exceptions used in
+the implementation is not standardized.  The only known exception
+of this kind is the denormalized operand exception of the Intel
+x86 architecture.  Whether or not non-standard exceptions are
+exposed to the user is implementation dependent.")
+
+(export 'unmasked-traps)
+(defsubst unmasked-traps ()
+  "Accessor for the enabled floating-point exceptions.
+
+Value is a list of exception keywords.
+
+When enabling floating-point exceptions, a value of ‘t’ is a
+synonym for all exceptions.
+
+The ‘exception-keywords’ variable lists the exception keywords
+used in the implementation.
+
+A ‘program-error’ is signaled if you attempt to unmask a trap,
+i.e. enable an exception, not used in the implementation."
+  #-closer-float-handle-traps
+  (fix-me 'unmasked-traps 'function)
+  #+closer-float-handle-traps
+  (let ((traps (get-unmasked-traps)))
+    (iter (for list :on traps)
+	  (for value = (car list))
+	  (for key = (getkey value exception-alist))
+	  (setf (car list) key))
+    traps))
+
+(defsubst (setf unmasked-traps) (traps)
+  #-closer-float-handle-traps
+  (fix-me '(setf unmasked-traps) 'function)
+  #+closer-float-handle-traps
+  (set-unmasked-traps
+   (if (eq traps t)
+       (iter (for key :in exception-keywords)
+	     (collect (getval key exception-alist)))
+     (iter (for key :in (alexandria:ensure-list traps))
+	   (unless (member key exception-keywords)
+	     (fix-me `(setf (unmasked-traps) ,traps) :operation))
+	   (adjoining (getval key exception-alist)))))
+  traps)
+(setf (documentation '(setf unmasked-traps) 'function)
+      (documentation 'unmasked-traps 'function))
+
+(export 'masked-traps)
+(defsubst masked-traps ()
+  "Accessor for the disabled floating-point exceptions.
+
+Value is a list of exception keywords.
+
+The ‘exception-keywords’ variable lists the exception keywords
+used in the implementation.
+
+A ‘program-error’ is signaled if you attempt to mask a trap not
+ used in the implementation."
+  (set-difference exception-keywords (unmasked-traps)))
+
+(defsubst (setf masked-traps) (traps)
+  (setf (unmasked-traps)
+	(if (eq traps t)
+	    ()
+	  (set-difference exception-keywords (alexandria:ensure-list traps)))))
+(setf (documentation '(setf masked-traps) 'function)
+      (documentation 'masked-traps 'function))
+
+(export 'with-unmasked-traps)
+(defmacro with-unmasked-traps (traps &body body)
+  "Establish a lexical environment where the floating-point exceptions
+listed in TRAPS are enabled.  If argument TRAPS is ‘t’, enable all
+exceptions.  When BODY returns, the previous signaling exceptions are
+restored."
+  (let ((saved (gensym "SAVED")))
+    `(let ((,saved (get-unmasked-traps)))
+       (unwind-protect
+	    (progn
+	      (setf (unmasked-traps) ,traps)
+	      ,@body)
+	 (set-unmasked-traps ,saved)))))
+
+(export 'with-masked-traps)
+(defmacro with-masked-traps (traps &body body)
+  "Establish a lexical environment where the floating-point exceptions
+listed in TRAPS are disabled.  If argument TRAPS is ‘t’, disable all
+exceptions.  When BODY returns, the previous signaling exceptions are
+restored."
+  (let ((saved (gensym "SAVED")))
+    `(let ((,saved (get-unmasked-traps)))
+       (unwind-protect
+	    (progn
+	      (setf (masked-traps) ,traps)
+	      ,@body)
+	 (set-unmasked-traps ,saved)))))
+
+(defun %merge-traps (traps place)
+  (dolist (trap (if (eq traps t)
+		    exception-keywords
+		  (alexandria:ensure-list traps)))
+    (pushnew trap place))
+  place)
+
+(export 'with-unmasked-traps*)
+(defmacro with-unmasked-traps* (traps &body body)
+  "Like ‘with-unmasked-traps’ except that traps accumulate."
+  `(with-unmasked-traps (%merge-traps ,traps (unmasked-traps))
+     ,@body))
+
+(export 'with-masked-traps*)
+(defmacro with-masked-traps* (traps &body body)
+  "Like ‘with-masked-traps’ except that traps accumulate."
+  `(with-masked-traps (%merge-traps ,traps (masked-traps))
+     ,@body))
 
 ;;; closer-float.lisp ends here
