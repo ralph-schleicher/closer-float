@@ -110,8 +110,12 @@
   (sb-int:set-floating-point-modes :rounding-mode value))
 
 ;; Exceptions.
+;;
+;; See ‘sb-vm:+float-trap-alist+’,
 (defconst exception-alist '((:invalid-operation . :invalid)
-			    (:division-by-zero . :divide-by-zero))
+			    (:division-by-zero . :divide-by-zero)
+			    #+x86
+			    (n/a . :denormalized-operand))
   "Mapping of Closer Float exception keywords.")
 
 (defsubst get-unmasked-traps ()
