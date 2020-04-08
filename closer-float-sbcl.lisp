@@ -97,6 +97,8 @@
        (sb-ext:float-trapping-nan-p x)))
 
 ;; Rounding.
+;;
+;; See ‘sb-vm:+rounding-mode-alist+’.
 (defconst rounding-mode-alist '((:nearest-even . :nearest)
 				(:nearest-away . n/a)
 				(:up . :positive-infinity)
@@ -111,7 +113,7 @@
 
 ;; Exceptions.
 ;;
-;; See ‘sb-vm:+float-trap-alist+’,
+;; See ‘sb-vm:+float-trap-alist+’.
 (defconst exception-alist '((:invalid-operation . :invalid)
 			    (:division-by-zero . :divide-by-zero)
 			    #+x86
