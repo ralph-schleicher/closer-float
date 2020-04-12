@@ -76,8 +76,8 @@ double-float-signaling-not-a-number
 exception-keywords
    The list of exception keywords used in the implementation.
    
-   Below is a table of all Closer Float exception keywords together
-   with their meaning.
+   Below is a table of all exception keywords together with their
+   meaning.
    
         :invalid-operation
              Invalid operation; ‘floating-point-invalid-operation’
@@ -196,14 +196,29 @@ masked-traps ()
    used in the implementation.
    
    A ‘program-error’ is signaled if you attempt to mask a trap not
-    used in the implementation.
+   used in the implementation.
 
                                                                       [Function]
 rounding-mode ()
    Accessor for the floating-point rounding mode.
    
-   Value is a rounding mode keyword.  Below is a table of all
-   rounding mode keywords together with their meaning.
+   Value is a rounding mode keyword.
+   
+   When setting the rounding mode, ‘:nearest’ is a synonym for
+   ‘:nearest-even’.
+   
+   The ‘rounding-mode-keywords’ variable lists the rounding mode
+   keywords used in the implementation.
+   
+   A ‘program-error’ is signaled if you attempt to set a rounding
+   mode not used in the implementation.
+
+                                                                      [Constant]
+rounding-mode-keywords
+   The list of rounding mode keywords used in the implementation.
+   
+   Below is a table of all rounding mode keywords together with their
+   meaning.
    
         :nearest-even
              Round to nearest, ties to even.
@@ -220,24 +235,11 @@ rounding-mode ()
         :zero
              Direct rounding towards zero.
    
-   When setting the rounding mode, ‘:nearest’ is a synonym for
-   ‘:nearest-even’.
-   
    The ‘:nearest-away’ rounding mode is defined by IEEE 754 as
    an option for the decimal floating-point formats.  It is not
    defined, for example, in the C floating-point environment
    ‘fenv.h’.  Thus, chances are low that this rounding mode is
    used in the implementation.
-   
-   The ‘rounding-mode-keywords’ variable lists the rounding mode
-   keywords used in the implementation.
-   
-   A ‘program-error’ is signaled if you attempt to set a rounding
-   mode not used in the implementation.
-
-                                                                      [Constant]
-rounding-mode-keywords
-   The list of Closer Float rounding mode keywords used in the implementation.
 
                                                                       [Constant]
 short-float-infinity
@@ -313,30 +315,30 @@ unmasked-traps ()
    i.e. enable an exception, not used in the implementation.
 
                                                                          [Macro]
-with-masked-traps (&rest args)
+with-masked-traps (traps &body body)
    Establish a lexical environment where the floating-point exceptions
    listed in TRAPS are disabled.  If argument TRAPS is ‘t’, disable all
    exceptions.  When BODY returns, the previous signaling exceptions are
    restored.
 
                                                                          [Macro]
-with-masked-traps* (&rest args)
+with-masked-traps* (traps &body body)
    Like ‘with-masked-traps’ except that traps accumulate.
 
                                                                          [Macro]
-with-rounding-mode (&rest args)
+with-rounding-mode (rounding-mode &body body)
    Establish a lexical environment with the current rounding mode set
    to ROUNDING-MODE.  If argument ROUNDING-MODE is ‘nil’, don't change
    the current rounding mode.  When BODY returns, the previous rounding
    mode is restored.
 
                                                                          [Macro]
-with-unmasked-traps (&rest args)
+with-unmasked-traps (traps &body body)
    Establish a lexical environment where the floating-point exceptions
    listed in TRAPS are enabled.  If argument TRAPS is ‘t’, enable all
    exceptions.  When BODY returns, the previous signaling exceptions are
    restored.
 
                                                                          [Macro]
-with-unmasked-traps* (&rest args)
+with-unmasked-traps* (traps &body body)
    Like ‘with-unmasked-traps’ except that traps accumulate.
