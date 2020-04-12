@@ -344,14 +344,10 @@ if VALUE is equal to KEY.")
 	  (for value = (getval key rounding-mode-alist))
 	  (unless (eq value n/a)
 	    (collect key))))
-  "The list of Closer Float rounding mode keywords used in the implementation.")
+  "The list of rounding mode keywords used in the implementation.
 
-(export 'rounding-mode)
-(defsubst rounding-mode ()
-  "Accessor for the floating-point rounding mode.
-
-Value is a rounding mode keyword.  Below is a table of all
-rounding mode keywords together with their meaning.
+Below is a table of all rounding mode keywords together with their
+meaning.
 
      :nearest-even
           Round to nearest, ties to even.
@@ -368,14 +364,20 @@ rounding mode keywords together with their meaning.
      :zero
           Direct rounding towards zero.
 
-When setting the rounding mode, ‘:nearest’ is a synonym for
-‘:nearest-even’.
-
 The ‘:nearest-away’ rounding mode is defined by IEEE 754 as
 an option for the decimal floating-point formats.  It is not
 defined, for example, in the C floating-point environment
 ‘fenv.h’.  Thus, chances are low that this rounding mode is
-used in the implementation.
+used in the implementation.")
+
+(export 'rounding-mode)
+(defsubst rounding-mode ()
+  "Accessor for the floating-point rounding mode.
+
+Value is a rounding mode keyword.
+
+When setting the rounding mode, ‘:nearest’ is a synonym for
+‘:nearest-even’.
 
 The ‘rounding-mode-keywords’ variable lists the rounding mode
 keywords used in the implementation.
@@ -457,8 +459,8 @@ if VALUE is equal to KEY.")
     (nreverse traps))
   "The list of exception keywords used in the implementation.
 
-Below is a table of all Closer Float exception keywords together
-with their meaning.
+Below is a table of all exception keywords together with their
+meaning.
 
      :invalid-operation
           Invalid operation; ‘floating-point-invalid-operation’
@@ -534,7 +536,7 @@ The ‘exception-keywords’ variable lists the exception keywords
 used in the implementation.
 
 A ‘program-error’ is signaled if you attempt to mask a trap not
- used in the implementation."
+used in the implementation."
   (set-difference exception-keywords (unmasked-traps)))
 
 (defsubst (setf masked-traps) (traps)
