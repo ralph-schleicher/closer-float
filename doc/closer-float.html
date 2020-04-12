@@ -500,8 +500,8 @@ and
     <div class="documentation">
      <pre>The list of exception keywords used in the implementation.
 
-Below is a table of all Closer Float exception keywords together
-with their meaning.
+Below is a table of all exception keywords together with their
+meaning.
 
      :invalid-operation
           Invalid operation; ‘floating-point-invalid-operation’
@@ -892,7 +892,7 @@ The ‘exception-keywords’ variable lists the exception keywords
 used in the implementation.
 
 A ‘program-error’ is signaled if you attempt to mask a trap not
- used in the implementation.</pre>
+used in the implementation.</pre>
     </div>
    </div>
    <div class="definition" id="_894b7ef5-20ee-58a7-b6ab-71cb64b7d742">
@@ -915,32 +915,10 @@ A ‘program-error’ is signaled if you attempt to mask a trap not
     <div class="documentation">
      <pre>Accessor for the floating-point rounding mode.
 
-Value is a rounding mode keyword.  Below is a table of all
-rounding mode keywords together with their meaning.
-
-     :nearest-even
-          Round to nearest, ties to even.
-
-     :nearest-away
-          Round to nearest, ties away from zero.
-
-     :up
-          Direct rounding towards positive infinity.
-
-     :down
-          Direct rounding towards negative infinity.
-
-     :zero
-          Direct rounding towards zero.
+Value is a rounding mode keyword.
 
 When setting the rounding mode, ‘:nearest’ is a synonym for
 ‘:nearest-even’.
-
-The ‘:nearest-away’ rounding mode is defined by IEEE 754 as
-an option for the decimal floating-point formats.  It is not
-defined, for example, in the C floating-point environment
-‘fenv.h’.  Thus, chances are low that this rounding mode is
-used in the implementation.
 
 The ‘rounding-mode-keywords’ variable lists the rounding mode
 keywords used in the implementation.
@@ -967,7 +945,31 @@ mode not used in the implementation.</pre>
      </table>
     </div>
     <div class="documentation">
-     <pre>The list of Closer Float rounding mode keywords used in the implementation.</pre>
+     <pre>The list of rounding mode keywords used in the implementation.
+
+Below is a table of all rounding mode keywords together with their
+meaning.
+
+     :nearest-even
+          Round to nearest, ties to even.
+
+     :nearest-away
+          Round to nearest, ties away from zero.
+
+     :up
+          Direct rounding towards positive infinity.
+
+     :down
+          Direct rounding towards negative infinity.
+
+     :zero
+          Direct rounding towards zero.
+
+The ‘:nearest-away’ rounding mode is defined by IEEE 754 as
+an option for the decimal floating-point formats.  It is not
+defined, for example, in the C floating-point environment
+‘fenv.h’.  Thus, chances are low that this rounding mode is
+used in the implementation.</pre>
     </div>
    </div>
    <div class="definition" id="_d009857a-bf3c-528d-b19b-b01cfaa746ed">
@@ -1275,7 +1277,7 @@ i.e. enable an exception, not used in the implementation.</pre>
       <tbody>
        <tr>
 	<td class="symbol"><a href="#contents"><span class="symbol">with-masked-traps</span></a></td>
-	<td class="lambda-list"><span class="lambda-list">(<span class="lambda-list-keyword">&amp;rest</span> <span class="variable">args</span>)</span></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">traps</span> <span class="lambda-list-keyword">&amp;body</span> <span class="variable">body</span>)</span></td>
 	<td class="category"><span class="category">Macro</span></td>
        </tr>
       </tbody>
@@ -1299,7 +1301,7 @@ restored.</pre>
       <tbody>
        <tr>
 	<td class="symbol"><a href="#contents"><span class="symbol">with-masked-traps*</span></a></td>
-	<td class="lambda-list"><span class="lambda-list">(<span class="lambda-list-keyword">&amp;rest</span> <span class="variable">args</span>)</span></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">traps</span> <span class="lambda-list-keyword">&amp;body</span> <span class="variable">body</span>)</span></td>
 	<td class="category"><span class="category">Macro</span></td>
        </tr>
       </tbody>
@@ -1320,7 +1322,7 @@ restored.</pre>
       <tbody>
        <tr>
 	<td class="symbol"><a href="#contents"><span class="symbol">with-rounding-mode</span></a></td>
-	<td class="lambda-list"><span class="lambda-list">(<span class="lambda-list-keyword">&amp;rest</span> <span class="variable">args</span>)</span></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">rounding-mode</span> <span class="lambda-list-keyword">&amp;body</span> <span class="variable">body</span>)</span></td>
 	<td class="category"><span class="category">Macro</span></td>
        </tr>
       </tbody>
@@ -1344,7 +1346,7 @@ mode is restored.</pre>
       <tbody>
        <tr>
 	<td class="symbol"><a href="#contents"><span class="symbol">with-unmasked-traps</span></a></td>
-	<td class="lambda-list"><span class="lambda-list">(<span class="lambda-list-keyword">&amp;rest</span> <span class="variable">args</span>)</span></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">traps</span> <span class="lambda-list-keyword">&amp;body</span> <span class="variable">body</span>)</span></td>
 	<td class="category"><span class="category">Macro</span></td>
        </tr>
       </tbody>
@@ -1368,7 +1370,7 @@ restored.</pre>
       <tbody>
        <tr>
 	<td class="symbol"><a href="#contents"><span class="symbol">with-unmasked-traps*</span></a></td>
-	<td class="lambda-list"><span class="lambda-list">(<span class="lambda-list-keyword">&amp;rest</span> <span class="variable">args</span>)</span></td>
+	<td class="lambda-list"><span class="lambda-list">(<span class="variable">traps</span> <span class="lambda-list-keyword">&amp;body</span> <span class="variable">body</span>)</span></td>
 	<td class="category"><span class="category">Macro</span></td>
        </tr>
       </tbody>
